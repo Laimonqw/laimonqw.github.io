@@ -2,108 +2,210 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Цены на Звёзды — Wilitx Stars</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-    body {
-        margin: 0;
-        background: #0b000c;
-        font-family: Arial, sans-serif;
-        color: white;
-        overflow-x: hidden;
-        text-align: center;
-    }
+:root{
+  --bg:#0b000c;
+  --card:#160018;
+  --pink:#ff4fff;
+  --purple:#8f3cff;
+}
 
-    .logo-block {
-        margin-top: 40px;
-    }
-    .logo {
-        background: #2a002c;
-        padding: 10px 25px;
-        border-radius: 40px;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 20px;
-        color: #d564ff;
-    }
-    .logo-icon {
-        font-weight: bold;
-        font-size: 24px;
-        color: #d564ff;
-    }
+*{box-sizing:border-box}
 
-    h1 {
-        margin-top: 140px;
-        font-size: 46px;
-        background: linear-gradient(90deg, #ff42ff, #c433ff);
-        -webkit-background-clip: text;
-        color: transparent;
-    }
+body{
+  margin:0;
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:white;
+}
 
-    .pack {
-        margin-top: 40px;
-        background: #1a001c;
-        padding: 20px;
-        border-radius: 20px;
-        width: 300px;
-        margin-left: auto;
-        margin-right: auto;
-        font-size: 22px;
-        color: #ffb9ff;
-    }
+/* ---------- HEADER ---------- */
+.header{
+  padding:20px;
+  text-align:center;
+}
+.logo{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 22px;
+  border-radius:40px;
+  background:linear-gradient(90deg,#ff4fff33,#8f3cff33);
+  border:1px solid #ffffff22;
+}
+.logo span{
+  font-weight:700;
+  color:var(--pink);
+}
 
-    .btn {
-        margin-top: 40px;
-        padding: 18px 45px;
-        border-radius: 40px;
-        background: linear-gradient(90deg, #ff42ff, #c433ff);
-        color: white;
-        font-size: 22px;
-        text-decoration: none;
-        display: inline-block;
-        transition: 0.25s;
-    }
-    .btn:hover {
-        transform: scale(1.05);
-    }
+/* ---------- TITLE ---------- */
+.title{
+  padding:10px 20px 0;
+  text-align:center;
+}
+.title h1{
+  font-size:26px;
+  margin:30px 0 10px;
+  background:linear-gradient(90deg,var(--pink),var(--purple));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.title p{
+  font-size:14px;
+  color:#d9baff;
+}
 
-    .back {
-        display: block;
-        margin-top: 20px;
-        color: #d564ff;
-        text-decoration: none;
-    }
+/* ---------- PACKS ---------- */
+.packs{
+  padding:20px;
+  display:grid;
+  gap:16px;
+}
 
-    .star {
-        position: absolute;
-        width: 40px;
-        height: 40px;
-        background: rgba(255, 0, 255, 0.13);
-        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
-                           79% 91%, 50% 70%, 21% 91%, 32% 57%, 
-                           2% 35%, 39% 35%);
-        filter: blur(1px);
-        animation: float 6s infinite ease-in-out;
-    }
+.pack{
+  background:var(--card);
+  border-radius:18px;
+  padding:18px;
+  border:1px solid #ffffff14;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  opacity:0;
+  transform:translateY(20px);
+  transition:.6s;
+}
+.pack.show{
+  opacity:1;
+  transform:none;
+}
+
+.pack-left{
+  text-align:left;
+}
+.pack-left b{
+  font-size:16px;
+  color:var(--pink);
+}
+.pack-left span{
+  display:block;
+  font-size:13px;
+  color:#d9baff;
+}
+
+.pack-price{
+  font-size:18px;
+  font-weight:700;
+}
+
+/* ---------- BUTTON ---------- */
+.buy-btn{
+  margin:10px auto 90px;
+  display:block;
+  width:100%;
+  max-width:320px;
+  padding:16px;
+  border-radius:50px;
+  background:linear-gradient(90deg,var(--pink),var(--purple));
+  color:white;
+  font-weight:700;
+  text-decoration:none;
+  text-align:center;
+  box-shadow:0 0 25px #ff4fff88;
+  transition:.25s;
+}
+.buy-btn:active{transform:scale(.96)}
+
+/* ---------- BOTTOM MENU ---------- */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#120013;
+  border-top:1px solid #ffffff14;
+  display:flex;
+}
+.bottom-nav a{
+  flex:1;
+  padding:14px 0;
+  text-align:center;
+  color:#d9baff;
+  text-decoration:none;
+  font-size:14px;
+}
+.bottom-nav a.active{
+  color:var(--pink);
+}
+
+/* ---------- DESKTOP ---------- */
+@media(min-width:900px){
+  body{display:flex;justify-content:center}
+  .wrapper{width:420px}
+}
 </style>
 </head>
 <body>
 
-<div class="logo-block">
-    <div class="logo">
-        <div class="logo-icon">W</div>
-        Wilitx Stars
+<div class="wrapper">
+
+  <div class="header">
+    <div class="logo"><span>W</span> Wilitx Stars</div>
+  </div>
+
+  <div class="title">
+    <h1>Цены на Звёзды</h1>
+    <p>Выберите пакет и перейдите в бота</p>
+  </div>
+
+  <div class="packs">
+    <div class="pack">
+      <div class="pack-left">
+        <b>⭐ 50 Stars</b>
+        <span>Быстрое начисление</span>
+      </div>
+      <div class="pack-price">70₽</div>
     </div>
+
+    <div class="pack">
+      <div class="pack-left">
+        <b>⭐ 100 Stars</b>
+        <span>Оптимальный выбор</span>
+      </div>
+      <div class="pack-price">140₽</div>
+    </div>
+
+    <div class="pack">
+      <div class="pack-left">
+        <b>⭐ 1000 Stars</b>
+        <span>Максимальная выгода</span>
+      </div>
+      <div class="pack-price">1400₽</div>
+    </div>
+  </div>
+
+  <a href="https://t.me/wilitxstarsbot" class="buy-btn">Купить в боте</a>
+
 </div>
 
-<h1>Цены на Звёзды</h1>
+<div class="bottom-nav">
+  <a href="index.html">Главная</a>
+  <a href="buy.html" class="active">Купить</a>
+  <a href="info.html">Инфо</a>
+</div>
 
-<div class="pack">⭐ 50 Stars — 70₽</div>
-<div class="pack">⭐ 100 Stars — 140₽</div>
-<div class="pack">⭐ 1000 Stars — 1400₽</div>
-
-<a href="https://t.me/wilitxstarsbot" class="btn">Купить в боте</a>
-<a href="index.html" class="back">← На главную</a>
+<script>
+/* SCROLL ANIMATION */
+const packs=document.querySelectorAll('.pack');
+const obs=new IntersectionObserver(e=>{
+  e.forEach(i=>i.isIntersecting && i.target.classList.add('show'))
+},{threshold:.2});
+packs.forEach(p=>obs.observe(p));
+</script>
 
 </body>
 </html>
