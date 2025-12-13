@@ -2,204 +2,209 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-
-<!-- ВАЖНО ДЛЯ МОБИЛЬНЫХ -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Wilitx Stars</title>
 
-<!-- ШРИФТЫ -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-    --pink:#ff4fff;
-    --purple:#c433ff;
+  --bg:#0b000c;
+  --card:#160018;
+  --pink:#ff4fff;
+  --purple:#8f3cff;
 }
 
-body {
-    margin: 0;
-    background: radial-gradient(circle at top, #260028, #0b000c 65%);
-    font-family: 'Inter', sans-serif;
-    color: white;
-    text-align: center;
-    overflow-x: hidden;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:white;
 }
 
-/* ---------- АНИМАЦИЯ ПОЯВЛЕНИЯ ---------- */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
+/* ---------- PRELOADER ---------- */
+#preloader{
+  position:fixed;
+  inset:0;
+  background:var(--bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.loader{
+  width:48px;height:48px;
+  border:3px solid #ffffff22;
+  border-top:3px solid var(--pink);
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- HEADER ---------- */
+.header{
+  padding:20px;
+  text-align:center;
+}
+.logo{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 22px;
+  border-radius:40px;
+  background:linear-gradient(90deg,#ff4fff33,#8f3cff33);
+  border:1px solid #ffffff22;
+}
+.logo span{
+  font-weight:700;
+  color:var(--pink);
 }
 
-/* ---------- ЛОГО ---------- */
-.logo-block {
-    margin-top: 32px;
-    animation: fadeIn 1s ease;
+/* ---------- HERO ---------- */
+.hero{
+  padding:40px 20px 20px;
+  text-align:center;
+}
+.hero h1{
+  font-size:28px;
+  line-height:1.35;
+  margin-bottom:18px;
+  background:linear-gradient(90deg,var(--pink),var(--purple));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.hero p{
+  font-size:16px;
+  color:#e7c9ff;
 }
 
-.logo {
-    background: linear-gradient(90deg, #ff42ff55, #c433ff55);
-    padding: 12px 28px;
-    border-radius: 50px;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 22px;
-    font-family: 'Space Grotesk', sans-serif;
-    border: 1px solid #ff70ff33;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 0 20px #ff00ff55;
+/* ---------- BUTTON ---------- */
+.main-btn{
+  margin:30px auto 10px;
+  display:block;
+  width:100%;
+  max-width:320px;
+  padding:16px;
+  border-radius:50px;
+  background:linear-gradient(90deg,var(--pink),var(--purple));
+  color:white;
+  font-weight:700;
+  text-decoration:none;
+  box-shadow:0 0 25px #ff4fff88;
+  transition:.25s;
+}
+.main-btn:active{transform:scale(.96)}
+
+/* ---------- CARDS ---------- */
+.cards{
+  padding:20px;
+  display:grid;
+  gap:16px;
+}
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:18px;
+  border:1px solid #ffffff14;
+  opacity:0;
+  transform:translateY(20px);
+  transition:.6s;
+}
+.card.show{
+  opacity:1;
+  transform:none;
+}
+.card h3{
+  margin:0 0 8px;
+  color:var(--pink);
+}
+.card p{
+  margin:0;
+  font-size:14px;
+  color:#d9baff;
 }
 
-.logo-icon {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--pink);
+/* ---------- BOTTOM MENU ---------- */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#120013;
+  border-top:1px solid #ffffff14;
+  display:flex;
+}
+.bottom-nav a{
+  flex:1;
+  padding:14px 0;
+  text-align:center;
+  color:#d9baff;
+  text-decoration:none;
+  font-size:14px;
+}
+.bottom-nav a:hover{
+  color:var(--pink);
 }
 
-/* ---------- ТЕКСТ ---------- */
-.desc {
-    margin: 130px auto 0;
-    max-width: 820px;
-    font-size: 38px;
-    line-height: 1.4;
-    font-weight: 600;
-    background: linear-gradient(90deg, var(--pink), var(--purple));
-    -webkit-background-clip: text;
-    color: transparent;
-    animation: fadeIn 1.5s ease;
-    padding: 0 20px;
-}
-
-/* ---------- КНОПКА ---------- */
-.btn-main {
-    margin-top: 55px;
-    padding: 18px 56px;
-    border-radius: 60px;
-    background: linear-gradient(90deg, var(--pink), var(--purple));
-    color: white;
-    font-size: 24px;
-    font-weight: 700;
-    font-family: 'Space Grotesk', sans-serif;
-    text-decoration: none;
-    display: inline-block;
-    box-shadow: 0 0 28px #ff00ff88;
-    transition: 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-main:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 40px #ff00ffcc;
-}
-
-/* ---------- ССЫЛКИ ---------- */
-.menu-link {
-    display: block;
-    margin-top: 22px;
-    font-size: 21px;
-    color: #ff9bff;
-    text-decoration: none;
-    transition: 0.25s;
-}
-
-.menu-link:hover {
-    color: white;
-    text-shadow: 0 0 10px var(--pink);
-}
-
-/* ---------- ЗВЁЗДЫ ---------- */
-.star {
-    position: absolute;
-    width: 42px;
-    height: 42px;
-    background: rgba(255, 0, 255, 0.18);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
-                       79% 91%, 50% 70%, 21% 91%, 32% 57%, 
-                       2% 35%, 39% 35%);
-    animation: starFloat 5s infinite ease-in-out;
-}
-
-@keyframes starFloat {
-    0%,100% { transform: translateY(0); opacity: .7; }
-    50%     { transform: translateY(-22px); opacity: 1; }
-}
-
-/* ================= МОБИЛЬНАЯ АДАПТАЦИЯ ================= */
-@media (max-width: 768px) {
-
-    .desc {
-        margin-top: 90px;
-        font-size: 26px;
-    }
-
-    .btn-main {
-        font-size: 20px;
-        padding: 16px 44px;
-    }
-
-    .menu-link {
-        font-size: 18px;
-    }
-
-    .star {
-        width: 30px;
-        height: 30px;
-        opacity: 0.5;
-    }
-}
-
-@media (max-width: 480px) {
-
-    .logo {
-        font-size: 18px;
-        padding: 10px 22px;
-    }
-
-    .logo-icon {
-        font-size: 22px;
-    }
-
-    .desc {
-        font-size: 22px;
-        line-height: 1.45;
-    }
-
-    .btn-main {
-        width: 80%;
-        max-width: 320px;
-    }
+/* ---------- DESKTOP ---------- */
+@media(min-width:900px){
+  body{display:flex;justify-content:center}
+  .wrapper{width:420px}
 }
 </style>
 </head>
 <body>
 
-<div class="logo-block">
-    <div class="logo">
-        <div class="logo-icon">W</div>
-        Wilitx Stars
+<div id="preloader"><div class="loader"></div></div>
+
+<div class="wrapper">
+
+  <div class="header">
+    <div class="logo"><span>W</span> Wilitx Stars</div>
+  </div>
+
+  <div class="hero">
+    <h1>Покупка Telegram Stars<br>по выгодной цене</h1>
+    <p>Быстро • Безопасно • Мгновенно</p>
+    <a href="https://t.me/ВАШ_БОТ" class="main-btn">Перейти в бота</a>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>⚡ Моментально</h3>
+      <p>Stars начисляются сразу после покупки</p>
     </div>
+    <div class="card">
+      <h3>💎 Лучшая цена</h3>
+      <p>Цены ниже официальных</p>
+    </div>
+    <div class="card">
+      <h3>🔒 Безопасно</h3>
+      <p>Работаем напрямую, без рисков</p>
+    </div>
+  </div>
+
 </div>
 
-<div class="desc">
-    Самый удобный сервис для покупки<br>
-    <b>Telegram Stars по лучшей цене.</b><br>
-    Быстро. Красиво. Выгодно.
+<div class="bottom-nav">
+  <a href="index.html">Главная</a>
+  <a href="buy.html">Купить</a>
+  <a href="info.html">Инфо</a>
 </div>
 
-<a href="https://t.me/ВАШ_БОТ" class="btn-main">Перейти в бота</a>
+<script>
+/* PRELOADER */
+window.onload=()=>document.getElementById("preloader").style.display="none";
 
-<a href="buy.html" class="menu-link">→ Купить Stars</a>
-<a href="info.
-html" class="menu-link">→ Информация</a>
-
-<!-- ЗВЁЗДЫ -->
-<div class="star" style="top: 16%; left: 8%;"></div>
-<div class="star" style="top: 40%; left: 82%; animation-delay:1s;"></div>
-<div class="star" style="top: 72%; left: 18%; animation-delay:2s;"></div>
-<div class="star" style="top: 86%; left: 65%; animation-delay:.5s;"></div>
+/* SCROLL ANIMATION */
+const cards=document.querySelectorAll('.card');
+const obs=new IntersectionObserver(e=>{
+  e.forEach(i=>i.isIntersecting && i.target.classList.add('show'))
+},{threshold:.2});
+cards.forEach(c=>obs.observe(c));
+</script>
 
 </body>
 </html>
