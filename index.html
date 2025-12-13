@@ -25,7 +25,7 @@ body{
   overflow-x:hidden;
 }
 
-/* ---------- STARS ---------- */
+/* ---------- STARS BACKGROUND ---------- */
 .stars{
   position:fixed;
   inset:0;
@@ -36,7 +36,7 @@ body{
   position:absolute;
   width:14px;
   height:14px;
-  background:linear-gradient(45deg,var(--pink),var(--purple));
+  background:linear-gradient(180deg,#ff7bff,#b44cff);
   clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
                      79% 91%, 50% 70%, 21% 91%, 32% 57%, 
                      2% 35%, 39% 35%);
@@ -45,7 +45,7 @@ body{
 }
 @keyframes float{
   from{transform:translateY(110vh) rotate(0deg)}
-  to{transform:translateY(-10vh) rotate(360deg)}
+  to{transform:translateY(-20vh) rotate(360deg)}
 }
 
 /* ---------- PRELOADER ---------- */
@@ -88,7 +88,7 @@ body{
 
 /* ---------- HERO ---------- */
 .hero{
-  padding:40px 20px 20px;
+  padding:40px 20px 10px;
   text-align:center;
 }
 .hero h1{
@@ -110,7 +110,7 @@ body{
   display:block;
   width:100%;
   max-width:320px;
-  padding:18px;
+  padding:16px;
   border-radius:50px;
   background:linear-gradient(90deg,var(--pink),var(--purple));
   color:white;
@@ -135,6 +135,7 @@ body{
   opacity:0;
   transform:translateY(20px);
   transition:.6s;
+  backdrop-filter:blur(6px);
 }
 .card.show{
   opacity:1;
@@ -150,29 +151,30 @@ body{
   color:#d9baff;
 }
 
-/* ---------- BOTTOM NAV ---------- */
+/* ---------- BOTTOM MENU ---------- */
 .bottom-nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  background:#120013;
+  height:64px;
+  background:#120013cc;
+  backdrop-filter:blur(10px);
   border-top:1px solid #ffffff14;
   display:flex;
-  height:64px;
 }
 .bottom-nav a{
   flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  padding:12px 0;
+  text-align:center;
   color:#d9baff;
   text-decoration:none;
   font-size:15px;
-  font-weight:600;
+  transition:.2s;
 }
-.bottom-nav a:hover{
+.bottom-nav a:active{
   color:var(--pink);
+  transform:scale(.95);
 }
 
 /* ---------- DESKTOP ---------- */
@@ -184,9 +186,9 @@ body{
 </head>
 <body>
 
-<div class="stars"></div>
-
 <div id="preloader"><div class="loader"></div></div>
+
+<div class="stars" id="stars"></div>
 
 <div class="wrapper">
 
@@ -197,7 +199,7 @@ body{
   <div class="hero">
     <h1>Покупка Telegram Stars<br>по выгодной цене</h1>
     <p>Быстро • Безопасно • Мгновенно</p>
-    <a href="https://t.me/wilitxstarsbot" class="main-btn">Перейти в бота</a>
+    <a href="https://t.me/ВАШ_БОТ" class="main-btn">Перейти в бота</a>
   </div>
 
   <div class="cards">
@@ -227,24 +229,25 @@ body{
 /* PRELOADER */
 window.onload=()=>document.getElementById("preloader").style.display="none";
 
-/* CARDS ANIMATION */
+/* STARS */
+const stars=document.getElementById("stars");
+for(let i=0;i<35;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDuration=6+Math.random()*10+"s";
+  s.style.animationDelay=Math.random()*-10+"s";
+  stars.appendChild(s);
+}
+
+/* SCROLL ANIMATION */
 const cards=document.querySelectorAll('.card');
 const obs=new IntersectionObserver(e=>{
   e.forEach(i=>i.isIntersecting && i.target.classList.add('show'))
 },{threshold:.2});
 cards.forEach(c=>obs.observe(c));
-
-/* STARS GENERATOR */
-const stars=document.querySelector('.stars');
-for(let i=0;i<25;i++){
-  const s=document.createElement('div');
-  s.className='star';
-  s.style.left=Math.random()*100+'vw';
-  s.style.animationDuration=6+Math.random()*6+'s';
-  s.style.animationDelay=Math.random()*5+'s';
-  stars.appendChild(s);
-}
 </script>
 
 </body>
 </html>
+      
