@@ -13,6 +13,7 @@
   --card:#160018;
   --pink:#ff4fff;
   --purple:#8f3cff;
+  --nav:#1b001d;
 }
 
 *{box-sizing:border-box}
@@ -22,102 +23,55 @@ body{
   font-family:Inter,sans-serif;
   background:var(--bg);
   color:white;
-  overflow-x:hidden;
 }
-
-/* ---------- STARS BACKGROUND ---------- */
-.stars{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  overflow:hidden;
-}
-.star{
-  position:absolute;
-  width:14px;
-  height:14px;
-  background:linear-gradient(180deg,#ff7bff,#b44cff);
-  clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
-                     79% 91%, 50% 70%, 21% 91%, 32% 57%, 
-                     2% 35%, 39% 35%);
-  opacity:.15;
-  animation:float linear infinite;
-}
-@keyframes float{
-  from{transform:translateY(110vh) rotate(0deg)}
-  to{transform:translateY(-20vh) rotate(360deg)}
-}
-
-/* ---------- PRELOADER ---------- */
-#preloader{
-  position:fixed;
-  inset:0;
-  background:var(--bg);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
-.loader{
-  width:48px;height:48px;
-  border:3px solid #ffffff22;
-  border-top:3px solid var(--pink);
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---------- HEADER ---------- */
 .header{
-  padding:20px;
+  padding:24px;
   text-align:center;
 }
 .logo{
   display:inline-flex;
-  align-items:center;
   gap:10px;
-  padding:10px 22px;
+  padding:12px 26px;
   border-radius:40px;
   background:linear-gradient(90deg,#ff4fff33,#8f3cff33);
   border:1px solid #ffffff22;
-}
-.logo span{
   font-weight:700;
   color:var(--pink);
 }
 
 /* ---------- HERO ---------- */
 .hero{
-  padding:40px 20px 10px;
+  padding:20px;
   text-align:center;
 }
 .hero h1{
   font-size:28px;
   line-height:1.35;
-  margin-bottom:18px;
+  margin:30px 0 14px;
   background:linear-gradient(90deg,var(--pink),var(--purple));
   -webkit-background-clip:text;
   color:transparent;
 }
 .hero p{
-  font-size:16px;
-  color:#e7c9ff;
+  font-size:15px;
+  color:#e6c8ff;
 }
 
-/* ---------- BUTTON ---------- */
+/* ---------- MAIN BUTTON ---------- */
 .main-btn{
-  margin:30px auto 10px;
+  margin:28px auto;
   display:block;
   width:100%;
   max-width:320px;
-  padding:16px;
+  padding:18px;
   border-radius:50px;
   background:linear-gradient(90deg,var(--pink),var(--purple));
   color:white;
   font-weight:700;
   text-decoration:none;
-  box-shadow:0 0 30px #ff4fff88;
-  transition:.25s;
+  box-shadow:0 0 30px #ff4fff99;
 }
 .main-btn:active{transform:scale(.96)}
 
@@ -126,23 +80,16 @@ body{
   padding:20px;
   display:grid;
   gap:16px;
+  margin-bottom:100px;
 }
 .card{
   background:var(--card);
-  border-radius:18px;
+  border-radius:20px;
   padding:18px;
   border:1px solid #ffffff14;
-  opacity:0;
-  transform:translateY(20px);
-  transition:.6s;
-  backdrop-filter:blur(6px);
-}
-.card.show{
-  opacity:1;
-  transform:none;
 }
 .card h3{
-  margin:0 0 8px;
+  margin:0 0 6px;
   color:var(--pink);
 }
 .card p{
@@ -151,30 +98,33 @@ body{
   color:#d9baff;
 }
 
-/* ---------- BOTTOM MENU ---------- */
+/* ---------- BOTTOM NAV (NEW) ---------- */
 .bottom-nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  height:64px;
-  background:#120013cc;
-  backdrop-filter:blur(10px);
-  border-top:1px solid #ffffff14;
+  height:78px;
+  background:linear-gradient(180deg,#220024,#120013);
+  border-top:1px solid #ffffff22;
   display:flex;
+  z-index:10;
 }
 .bottom-nav a{
   flex:1;
-  padding:12px 0;
   text-align:center;
-  color:#d9baff;
   text-decoration:none;
-  font-size:15px;
-  transition:.2s;
+  color:#e0c8ff;
+  font-size:13px;
+  padding-top:14px;
 }
-.bottom-nav a:active{
+.bottom-nav a span{
+  display:block;
+  font-size:22px;
+  margin-bottom:4px;
+}
+.bottom-nav a.active{
   color:var(--pink);
-  transform:scale(.95);
 }
 
 /* ---------- DESKTOP ---------- */
@@ -186,68 +136,50 @@ body{
 </head>
 <body>
 
-<div id="preloader"><div class="loader"></div></div>
-
-<div class="stars" id="stars"></div>
-
 <div class="wrapper">
 
   <div class="header">
-    <div class="logo"><span>W</span> Wilitx Stars</div>
+    <div class="logo">⭐ Wilitx Stars</div>
   </div>
 
   <div class="hero">
-    <h1>Покупка Telegram Stars<br>по выгодной цене</h1>
-    <p>Быстро • Безопасно • Мгновенно</p>
-    <a href="https://t.me/ВАШ_БОТ" class="main-btn">Перейти в бота</a>
+    <h1>Telegram Stars<br>по выгодной цене</h1>
+    <p>Быстро • Безопасно • Без комиссий</p>
+    <a href="https://t.me/wilitxstarsbot" class="main-btn">Перейти в бота</a>
   </div>
 
   <div class="cards">
     <div class="card">
-      <h3>⚡️ Моментально</h3>
-      <p>Stars начисляются сразу после покупки</p>
+      <h3>⚡ Мгновенно</h3>
+      <p>Звёзды начисляются сразу</p>
     </div>
     <div class="card">
-      <h3>💎 Лучшая цена</h3>
-      <p>Цены ниже официальных</p>
+      <h3>💎 Выгодно</h3>
+      <p>Цена ниже официальной</p>
     </div>
     <div class="card">
-      <h3>🔒 Безопасно</h3>
-      <p>Работаем напрямую, без рисков</p>
+      <h3>🔒 Надёжно</h3>
+      <p>Безопасная покупка</p>
     </div>
   </div>
 
 </div>
 
+<!-- BOTTOM MENU -->
 <div class="bottom-nav">
-  <a href="index.html">Главная</a>
-  <a href="buy.html">Цены</a>
-  <a href="info.html">Инфо</a>
+  <a href="index.html" class="active">
+    <span>🏠</span>
+    Главная
+  </a>
+  <a href="buy.html">
+    <span>💰</span>
+    Цены
+  </a>
+  <a href="info.html">
+    <span>ℹ️</span>
+    Инфо
+  </a>
 </div>
-
-<script>
-/* PRELOADER */
-window.onload=()=>document.getElementById("preloader").style.display="none";
-
-/* STARS */
-const stars=document.getElementById("stars");
-for(let i=0;i<35;i++){
-  const s=document.createElement("div");
-  s.className="star";
-  s.style.left=Math.random()*100+"%";
-  s.style.animationDuration=6+Math.random()*10+"s";
-  s.style.animationDelay=Math.random()*-10+"s";
-  stars.appendChild(s);
-}
-
-/* SCROLL ANIMATION */
-const cards=document.querySelectorAll('.card');
-const obs=new IntersectionObserver(e=>{
-  e.forEach(i=>i.isIntersecting && i.target.classList.add('show'))
-},{threshold:.2});
-cards.forEach(c=>obs.observe(c));
-</script>
 
 </body>
 </html>
-      
