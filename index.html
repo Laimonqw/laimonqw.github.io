@@ -22,6 +22,30 @@ body{
   font-family:Inter,sans-serif;
   background:var(--bg);
   color:white;
+  overflow-x:hidden;
+}
+
+/* ---------- STARS ---------- */
+.stars{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  overflow:hidden;
+}
+.star{
+  position:absolute;
+  width:14px;
+  height:14px;
+  background:linear-gradient(45deg,var(--pink),var(--purple));
+  clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
+                     79% 91%, 50% 70%, 21% 91%, 32% 57%, 
+                     2% 35%, 39% 35%);
+  opacity:.15;
+  animation:float linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(110vh) rotate(0deg)}
+  to{transform:translateY(-10vh) rotate(360deg)}
 }
 
 /* ---------- PRELOADER ---------- */
@@ -86,13 +110,13 @@ body{
   display:block;
   width:100%;
   max-width:320px;
-  padding:16px;
+  padding:18px;
   border-radius:50px;
   background:linear-gradient(90deg,var(--pink),var(--purple));
   color:white;
   font-weight:700;
   text-decoration:none;
-  box-shadow:0 0 25px #ff4fff88;
+  box-shadow:0 0 30px #ff4fff88;
   transition:.25s;
 }
 .main-btn:active{transform:scale(.96)}
@@ -126,7 +150,7 @@ body{
   color:#d9baff;
 }
 
-/* ---------- BOTTOM MENU ---------- */
+/* ---------- BOTTOM NAV ---------- */
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -135,14 +159,17 @@ body{
   background:#120013;
   border-top:1px solid #ffffff14;
   display:flex;
+  height:64px;
 }
 .bottom-nav a{
   flex:1;
-  padding:14px 0;
-  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   color:#d9baff;
   text-decoration:none;
-  font-size:14px;
+  font-size:15px;
+  font-weight:600;
 }
 .bottom-nav a:hover{
   color:var(--pink);
@@ -157,6 +184,8 @@ body{
 </head>
 <body>
 
+<div class="stars"></div>
+
 <div id="preloader"><div class="loader"></div></div>
 
 <div class="wrapper">
@@ -168,12 +197,12 @@ body{
   <div class="hero">
     <h1>Покупка Telegram Stars<br>по выгодной цене</h1>
     <p>Быстро • Безопасно • Мгновенно</p>
-    <a href="https://t.me/ВАШ_БОТ" class="main-btn">Перейти в бота</a>
+    <a href="https://t.me/wilitxstarsbot" class="main-btn">Перейти в бота</a>
   </div>
 
   <div class="cards">
     <div class="card">
-      <h3>⚡ Моментально</h3>
+      <h3>⚡️ Моментально</h3>
       <p>Stars начисляются сразу после покупки</p>
     </div>
     <div class="card">
@@ -190,7 +219,7 @@ body{
 
 <div class="bottom-nav">
   <a href="index.html">Главная</a>
-  <a href="buy.html">Купить</a>
+  <a href="buy.html">Цены</a>
   <a href="info.html">Инфо</a>
 </div>
 
@@ -198,12 +227,23 @@ body{
 /* PRELOADER */
 window.onload=()=>document.getElementById("preloader").style.display="none";
 
-/* SCROLL ANIMATION */
+/* CARDS ANIMATION */
 const cards=document.querySelectorAll('.card');
 const obs=new IntersectionObserver(e=>{
   e.forEach(i=>i.isIntersecting && i.target.classList.add('show'))
 },{threshold:.2});
 cards.forEach(c=>obs.observe(c));
+
+/* STARS GENERATOR */
+const stars=document.querySelector('.stars');
+for(let i=0;i<25;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  s.style.left=Math.random()*100+'vw';
+  s.style.animationDuration=6+Math.random()*6+'s';
+  s.style.animationDelay=Math.random()*5+'s';
+  stars.appendChild(s);
+}
 </script>
 
 </body>
