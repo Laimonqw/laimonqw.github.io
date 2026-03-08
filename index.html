@@ -333,6 +333,23 @@ position:relative;overflow:hidden;
     <div class="glass ic lift anim"><div class="ih"><div class="ii">🔒</div><div class="iti">Безопасность</div></div><div class="ib">Покупка производится официально через платформу <b style="color:var(--t1)">Fragment</b>. Ваш аккаунт в полной безопасности — никакого риска блокировки.</div><div class="idv"></div><div class="ib" style="color:var(--purple);font-weight:600;font-size:12px">✓ Официальный Fragment &nbsp;·&nbsp; ✓ Без риска &nbsp;·&nbsp; ✓ Гарантия</div></div>
     <div class="glass ic lift anim"><div style="font-size:10px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Контакты</div><div class="ir"><span class="ik">Бот</span><a class="iv" href="https://t.me/WilitxStarsBot" onclick="openTg('WilitxStarsBot');return false;">@WilitxStarsBot</a></div><div class="ir"><span class="ik">Поддержка</span><a class="iv" href="https://t.me/MessageWT_bot" onclick="openTg('MessageWT_bot');return false;">@MessageWT_bot</a></div><div class="ir"><span class="ik">Канал</span><a class="iv" href="https://t.me/WilitxStars" onclick="openTg('WilitxStars');return false;">@WilitxStars</a></div><div class="ir"><span class="ik">Время ответа</span><span class="iv">~5 минут</span></div></div>
   </div>
+
+    <div class="glass ic lift anim">
+      <div class="ih"><div class="ii">📊</div><div class="iti">Статистика бота</div></div>
+      <div class="ib" style="margin-bottom:10px">Бот работает с <b style="color:var(--t1)">31 октября 2025</b> года. За это время мы обслужили почти <b style="color:var(--t1)">100 клиентов</b>, бота запустили <b style="color:var(--t1)">135 человек</b>.</div>
+      <div class="idv"></div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div class="ir"><span class="ik"><span class="star-emoji">⭐</span> Звёзд продано</span><span class="iv">19 772 <span style="color:var(--t3);font-weight:400">(26 635 ₽)</span></span></div>
+        <div class="ir"><span class="ik">💸 Выкуплено звёзд</span><span class="iv">1 200</span></div>
+        <div class="ir"><span class="ik">💎 Продажа TON</span><span class="iv" style="color:var(--t3)">0</span></div>
+        <div class="ir"><span class="ik">🧾 Аренда NFT подарков</span><span class="iv">3 <span style="color:var(--t3);font-weight:400">(207 ₽)</span></span></div>
+        <div class="ir"><span class="ik">🔤 Аренда NFT юзернеймов</span><span class="iv">2 <span style="color:var(--t3);font-weight:400">(7 ₽)</span></span></div>
+        <div class="ir"><span class="ik">📱 Аренда NFT номеров</span><span class="iv" style="color:var(--t3)">0</span></div>
+        <div class="ir"><span class="ik">🎁 Обычных подарков</span><span class="iv">7 <span style="color:var(--t3);font-weight:400">(245 ₽)</span></span></div>
+        <div class="ir"><span class="ik">🐸 NFT подарков куплено</span><span class="iv">13 <span style="color:var(--t3);font-weight:400">(9 529 ₽)</span></span></div>
+        <div class="ir"><span class="ik">🌟 Premium месяцев</span><span class="iv">6 <span style="color:var(--t3);font-weight:400">(1 375 ₽)</span></span></div>
+      </div>
+    </div>
   <div style="height:10px"></div>
 </div>
 
@@ -587,11 +604,11 @@ function frev(t, b) {
   });
 }
 (function(){
-  var el = document.getElementById('cnt'), tg = 23679, c = 0, s = tg/60;
+  var el = document.getElementById('cnt'), tg = 19772, c = 0, s = tg/60;
   var iv = setInterval(function(){
     c = Math.min(c+s, tg);
     el.textContent = Math.floor(c).toLocaleString('ru-RU');
-    if(c>=tg){ el.textContent='23 679'; clearInterval(iv); }
+    if(c>=tg){ el.textContent='19 772'; clearInterval(iv); }
   }, 16);
 })();
 if(window.Telegram&&window.Telegram.WebApp){ window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); }
