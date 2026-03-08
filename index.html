@@ -2,254 +2,663 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Wilitx Stars</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
 :root{
-  --bg:#0b000c;
-  --card:#160018;
-  --pink:#ff4fff;
-  --purple:#8f3cff;
+  --bg:#0a0010;
+  --purple:#c05aff;
+  --pink:#e040fb;
+  --ag:linear-gradient(135deg,#b044f5,#e040fb,#cc44ff);
+  --bg-btn:linear-gradient(135deg,#a855f7,#d946ef,#c026d3);
+  --t1:#fff;
+  --t2:rgba(255,255,255,0.55);
+  --t3:rgba(255,255,255,0.28);
+  --bord:rgba(180,80,255,0.2);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+/* Force Apple emoji rendering on all star instances */
+.star-emoji{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-style:normal}
+#canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);animation:orbFloat ease-in-out infinite alternate}
+.orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(168,85,247,0.22),transparent 70%);top:-180px;left:-120px;animation-duration:16s}
+.orb2{width:420px;height:420px;background:radial-gradient(circle,rgba(217,70,239,0.18),transparent 70%);bottom:-140px;right:-100px;animation-duration:20s;animation-delay:-8s}
+.orb3{width:280px;height:280px;background:radial-gradient(circle,rgba(192,60,255,0.14),transparent 70%);top:40%;left:30%;animation-duration:12s;animation-delay:-4s}
+@keyframes orbFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(28px,18px) scale(1.1)}}
+
+.app{position:relative;z-index:1;min-height:100vh;padding-bottom:92px}
+.sec{display:none;padding:0 14px}
+.sec.on{display:block}
+
+.anim{opacity:1;transform:none}
+.sec.on .anim{animation:slideUp 0.4s cubic-bezier(0.22,1,0.36,1) both}
+@keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Telegram Star — rendered via img tag using Telegram's own CDN sticker */
+.tgstar{display:inline-block;vertical-align:middle;line-height:1;flex-shrink:0}
+.tgstar img{display:block;width:100%;height:100%}
+
+.glass{
+  position:relative;overflow:hidden;
+  background:rgba(28,0,45,0.55);
+  border:1px solid var(--bord);
+  border-radius:20px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.55),0 1px 0 rgba(255,255,255,0.08) inset;
+  -webkit-backdrop-filter:blur(28px) saturate(160%);
+  backdrop-filter:blur(28px) saturate(160%);
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s,border-color 0.3s;
+}
+.glass::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:2;pointer-events:none;background:linear-gradient(90deg,transparent 5%,rgba(210,130,255,0.4) 40%,rgba(230,110,255,0.45) 60%,transparent 95%)}
+.glass::after{content:'';position:absolute;inset:0;border-radius:inherit;z-index:1;pointer-events:none;background:linear-gradient(150deg,rgba(170,80,255,0.1) 0%,transparent 45%,rgba(220,60,255,0.05) 100%)}
+.glass:active{transform:scale(0.975)!important;box-shadow:0 4px 20px rgba(0,0,0,0.6)}
+@supports not (backdrop-filter:blur(1px)){.glass{background:rgba(28,0,45,0.97)}}
+
+.lift{transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.35s}
+.lift:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 16px 48px rgba(180,0,255,0.2)}
+
+.nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  display:flex;gap:4px;
+  padding:10px 10px max(env(safe-area-inset-bottom,16px),16px);
+  background:rgba(8,0,16,0.9);
+  border-top:1px solid rgba(180,80,255,0.18);
+  -webkit-backdrop-filter:blur(40px);backdrop-filter:blur(40px);
+}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px;background:none;border:none;cursor:pointer;border-radius:12px;color:rgba(255,255,255,0.3);font-family:inherit;font-size:9px;font-weight:600;letter-spacing:0.1px;transition:color 0.25s,background 0.25s,transform 0.3s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden}
+.tab.on{color:var(--pink);background:rgba(224,64,251,0.13)}
+.tab.on .ti{animation:tabPop 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes tabPop{0%{transform:scale(0.7) translateY(4px)}60%{transform:scale(1.2) translateY(-2px)}100%{transform:scale(1) translateY(0)}}
+.ti{font-size:20px;line-height:1;display:block}
+
+.hero{padding:36px 4px 24px;text-align:center}
+
+/* BIG HERO STAR */
+.hero-star{
+  font-size:80px;line-height:1;text-align:center;margin:0 auto 18px;
+  animation:starBob 3s ease-in-out infinite, starGlow 3s ease-in-out infinite;
+  
+}
+@keyframes starBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+@keyframes starGlow{0%,100%{filter:drop-shadow(0 0 12px rgba(255,200,0,0.4))}50%{filter:drop-shadow(0 0 28px rgba(255,200,0,0.75)) drop-shadow(0 0 50px rgba(255,160,0,0.3))}}
+
+.brand-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;margin-bottom:22px;background:rgba(168,85,247,0.13);border:1px solid rgba(168,85,247,0.32);border-radius:100px;font-size:12px;font-weight:700;letter-spacing:0.8px;color:rgba(255,255,255,0.75);animation:pillPulse 3s ease-in-out infinite}
+@keyframes pillPulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,0)}50%{box-shadow:0 0 16px 3px rgba(168,85,247,0.2)}}
+.brand-w{width:22px;height:22px;border-radius:7px;background:var(--bg-btn);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}
+.bdot{width:7px;height:7px;border-radius:50%;background:var(--pink);box-shadow:0 0 8px var(--pink);animation:bdotPulse 2s ease-in-out infinite;flex-shrink:0}
+@keyframes bdotPulse{0%,100%{transform:scale(1);box-shadow:0 0 6px var(--pink)}50%{transform:scale(1.5);box-shadow:0 0 14px var(--pink),0 0 28px rgba(224,64,251,0.4)}}
+
+.h1{font-size:clamp(26px,7.5vw,38px);font-weight:800;line-height:1.15;letter-spacing:-.8px;margin-bottom:12px}
+.h1 em{font-style:normal;background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{font-size:14px;color:var(--t2);margin-bottom:26px;line-height:1.6}
+.sub .sep{color:var(--pink);animation:sepBlink 2s ease-in-out infinite;display:inline-block}
+@keyframes sepBlink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+
+.cta{display:block;width:100%;padding:17px;background:var(--bg-btn);border:none;border-radius:100px;color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;text-align:center;letter-spacing:.3px;box-shadow:0 4px 30px rgba(192,38,211,0.6),0 1px 0 rgba(255,255,255,0.22) inset;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.2s;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:8px}
+.cta::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);animation:ctaShine 2.5s 0.5s infinite}
+@keyframes ctaShine{0%{left:-100%}100%{left:200%}}
+.cta:hover{transform:scale(1.02);box-shadow:0 6px 40px rgba(192,38,211,0.75),0 1px 0 rgba(255,255,255,0.22) inset}
+.cta:active{transform:scale(0.96)!important}
+
+/* Inline small star for buttons/labels */
+.s{display:inline-block;width:18px;height:18px;vertical-align:middle;margin:-2px 0}
+.s svg{width:100%;height:100%}
+
+.ripple-dot{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,0.3);transform:scale(0);animation:rippleAnim 0.6s ease-out forwards}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+
+.stats-card{padding:20px;margin:16px 0}
+.sc-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sc-lbl{font-size:12px;color:var(--t2);font-weight:500}
+.sc-num{font-size:34px;font-weight:800;line-height:1;margin-bottom:3px;display:flex;align-items:center;gap:8px;background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-1px}
+.sc-num .sn-star{width:32px;height:32px;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(255,180,0,0.6));animation:starBob 3s ease-in-out infinite}
+.sc-sub{font-size:12px;color:var(--t3)}
+.sc-div{height:1px;background:rgba(180,80,255,0.14);margin:14px 0}
+.sc-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.sc-item{text-align:center;padding:10px 6px;background:rgba(168,85,247,0.07);border-radius:12px;border:1px solid rgba(168,85,247,0.14);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),background 0.3s}
+.sc-item:hover{background:rgba(168,85,247,0.15);transform:scale(1.04)}
+.sc-n{font-size:15px;font-weight:800;display:block;background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sc-l{font-size:10px;color:var(--t3);margin-top:2px}
+
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 18px}
+.fc{padding:16px 14px;cursor:default}
+.fc::after{content:'';position:absolute;top:10px;bottom:10px;left:0;width:3px;background:var(--bg-btn);border-radius:0 3px 3px 0;opacity:0.55}
+.fi{font-size:24px;margin-bottom:8px;display:block;animation:iconBob ease-in-out infinite}
+.fc:nth-child(1) .fi{animation-duration:3s}
+.fc:nth-child(2) .fi{animation-duration:3.5s;animation-delay:.5s}
+.fc:nth-child(3) .fi{animation-duration:4s;animation-delay:1s}
+.fc:nth-child(4) .fi{animation-duration:3.2s;animation-delay:1.5s}
+@keyframes iconBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.ft{font-size:13px;font-weight:700;margin-bottom:3px;background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fd{font-size:11px;color:var(--t2);line-height:1.55}
+
+.rv{padding:16px;margin-bottom:8px;cursor:default}
+.rv-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:10px}
+.rv-product{font-size:10px;font-weight:600;color:var(--t3);letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px}
+.rv-badge{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;background:rgba(168,85,247,0.13);border:1px solid rgba(168,85,247,0.3);color:var(--purple);font-size:10px;font-weight:700;padding:3px 9px;border-radius:8px;letter-spacing:.4px;white-space:nowrap}
+.rv-text{font-size:13px;color:var(--t1);line-height:1.5;margin-bottom:10px}
+.rv-footer{display:flex;justify-content:space-between}
+.rv-num,.rv-date{font-size:11px;color:var(--t3);font-weight:600}
+
+.sh{padding:50px 0 14px;text-align:center}
+.stit{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;display:flex;align-items:center;justify-content:center;gap:8px}
+.ssub{font-size:12px;color:var(--t2)}
+
+.calc-card{padding:16px;margin-bottom:12px}
+.calc-lbl{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.calc-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.calc-input{flex:1;padding:12px 14px;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.24);border-radius:12px;color:var(--t1);font-family:inherit;font-size:16px;font-weight:600;outline:none;-webkit-appearance:none;transition:border 0.25s,box-shadow 0.25s}
+.calc-input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(224,64,251,0.15)}
+.calc-result{padding:12px 14px;min-width:90px;text-align:center;background:rgba(192,38,211,0.14);border:1px solid rgba(192,38,211,0.28);border-radius:12px;font-size:16px;font-weight:800;color:var(--pink);transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1)}
+.calc-result.pop{animation:resPop 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes resPop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+.calc-note{font-size:11px;color:var(--t3);text-align:center}
+
+.pl{display:flex;flex-direction:column;gap:8px}
+.pc{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s,border-color 0.25s}
+.pc:hover{transform:translateX(4px) scale(1.01);border-color:rgba(200,100,255,0.35);box-shadow:0 8px 30px rgba(180,0,255,0.15)}
+.pc:active{transform:scale(0.97)!important}
+.porb{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.porb .porb-star{width:28px;height:28px;filter:drop-shadow(0 0 4px rgba(255,180,0,0.5));transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.pc:hover .porb-star{transform:rotate(20deg) scale(1.2)}
+.pi{flex:1}
+.pa{font-size:15px;font-weight:700;margin-bottom:1px}
+.pb{font-size:11px;color:var(--t3)}
+.pv{text-align:right}
+.pp{font-size:18px;font-weight:800;background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pu{font-size:10px;color:var(--t3);margin-top:1px}
+
+.il{display:flex;flex-direction:column;gap:10px}
+.ic{padding:18px}
+.ih{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.ii{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:rgba(168,85,247,0.11);border:1px solid rgba(168,85,247,0.24);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+.ic:hover .ii{transform:rotate(10deg) scale(1.1)}
+.iti{font-size:14px;font-weight:700;background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ib{font-size:13px;color:var(--t2);line-height:1.7}
+.idv{height:1px;background:rgba(180,80,255,0.12);margin:12px 0}
+.ir{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.ir:last-child{border-bottom:none}
+.ik{font-size:13px;color:var(--t2)}
+.iv{font-size:13px;font-weight:600;color:var(--purple)}
+
+.rev-tabs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
+.rev-tabs::-webkit-scrollbar{display:none}
+.rtab{flex-shrink:0;padding:7px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.04);font-family:inherit;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:6px}
+.rtab.on{background:rgba(168,85,247,0.14);border-color:rgba(168,85,247,0.35);color:var(--purple)}
+.rcnt{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.07)}
+.rtab.on .rcnt{background:var(--bg-btn)}
+
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);background:rgba(18,0,30,0.95);border:1px solid rgba(200,100,255,0.3);border-radius:14px;padding:12px 20px;font-size:13px;font-weight:600;z-index:999;white-space:nowrap;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+.w-logo{display:block;width:100%;height:100%}
+.brand-w{
+  width:28px;height:28px;border-radius:8px;
+  background:rgba(140,40,220,0.15);
+  border:1px solid rgba(180,80,255,0.3);
+  display:flex;align-items:center;justify-content:center;
+  padding:3px;overflow:hidden;
+  box-shadow:0 0 10px rgba(180,80,255,0.3);
 }
 
-*{box-sizing:border-box}
 
-body{
-  min-height: 100dvh;
-  padding-bottom: calc(env(safe-area-inset-bottom) + 6px);
-  position: relative;
-  margin:0;
-  font-family:Inter,sans-serif;
-  background:var(--bg);
-  color:white;
-  overflow-x:hidden;
-}
+a.iv{color:var(--purple);text-decoration:none;font-size:13px;font-weight:600;transition:opacity 0.2s}
+a.iv:active{opacity:0.6}
 
-/* ---------- STARS BACKGROUND ---------- */
-.stars{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  overflow:visible;
-}
-.star{
-  position:absolute;
-  width:14px;
-  height:14px;
-  background:linear-gradient(180deg,#ff7bff,#b44cff);
-  clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
-                     79% 91%, 50% 70%, 21% 91%, 32% 57%, 
-                     2% 35%, 39% 35%);
-  opacity:.15;
-  animation:float linear infinite;
-}
-@keyframes float{
-  from{transform:translateY(110vh) rotate(0deg)}
-  to{transform:translateY(-20vh) rotate(360deg)}
-}
-
-/* ---------- PRELOADER ---------- */
-#preloader{
-  position:fixed;
-  inset:0;
-  background:var(--bg);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
-.loader{
-  width:48px;height:48px;
-  border:3px solid #ffffff22;
-  border-top:3px solid var(--pink);
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ---------- HEADER ---------- */
-.header{
-  padding:20px;
-  text-align:center;
-}
-.logo{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding:10px 22px;
-  border-radius:40px;
-  background:linear-gradient(90deg,#ff4fff33,#8f3cff33);
-  border:1px solid #ffffff22;
-}
-.logo span{
-  font-weight:700;
-  color:var(--pink);
-}
-
-/* ---------- HERO ---------- */
-.hero{
-  padding:40px 20px 10px;
-  text-align:center;
-}
-.hero h1{
-  font-size:28px;
-  line-height:1.35;
-  margin-bottom:18px;
-  background:linear-gradient(90deg,var(--pink),var(--purple));
-  -webkit-background-clip:text;
-  color:transparent;
-}
-.hero p{
-  font-size:16px;
-  color:#e7c9ff;
-}
-
-/* ---------- BUTTON ---------- */
-.main-btn{
-  margin:30px auto 10px;
-  display:block;
-  width:100%;
-  max-width:320px;
-  padding:16px;
-  border-radius:50px;
-  background:linear-gradient(90deg,var(--pink),var(--purple));
-  color:white;
-  font-weight:700;
-  text-decoration:none;
-  box-shadow:0 0 30px #ff4fff88;
-  transition:.25s;
-}
-.main-btn:active{transform:scale(.96)}
-
-/* ---------- CARDS ---------- */
-.cards{
-  padding:20px;
-  display:grid;
-  gap:16px;
-}
-.card{
-  background:var(--card);
+/* MENU TAB */
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.menu-full{grid-column:1/-1}
+.mcard{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 14px;cursor:pointer;
+  background:rgba(28,0,45,0.55);
+  border:1px solid var(--bord);
   border-radius:18px;
-  padding:18px;
-  border:1px solid #ffffff14;
-  opacity:0;
-  transform:translateY(20px);
-  transition:.6s;
-  backdrop-filter:blur(6px);
+  box-shadow:0 4px 20px rgba(0,0,0,0.4),0 1px 0 rgba(255,255,255,0.06) inset;
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s,border-color 0.25s;
+  position:relative;overflow:hidden;
 }
-.card.show{
-  opacity:1;
-  transform:none;
-}
-.card h3{
-  margin:0 0 8px;
-  color:var(--pink);
-}
-.card p{
-  margin:0;
-  font-size:14px;
-  color:#d9baff;
-}
+.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,120,255,0.3),transparent)}
+.mcard:hover{transform:scale(1.02) translateY(-2px);box-shadow:0 10px 32px rgba(150,0,255,0.2);border-color:rgba(200,100,255,0.35)}
+.mcard:active{transform:scale(0.96)!important}
+.mcard-icon{font-size:26px;flex-shrink:0;line-height:1}
+.mcard-text{font-size:14px;font-weight:700;color:var(--t1);line-height:1.2}
+.mcard-sub{font-size:11px;color:var(--t2);margin-top:2px;font-weight:400}
 
-/* ---------- BOTTOM MENU ---------- */
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:64px;
-  background:#120013cc;
-  backdrop-filter:blur(10px);
-  border-top:1px solid #ffffff14;
-  display:flex;
-}
-.bottom-nav a{
-  flex:1;
-  padding:12px 0;
-  text-align:center;
-  color:#d9baff;
-  text-decoration:none;
-  font-size:15px;
-  transition:.2s;
-}
-.bottom-nav a:active{
-  color:var(--pink);
-  transform:scale(.95);
-}
-
-/* ---------- DESKTOP ---------- */
-@media(min-width:900px){
-  body{display:flex;justify-content:center}
-  .wrapper{width:420px}
-}
 </style>
 </head>
 <body>
+<canvas id="canvas"></canvas>
+<div class="bg-wrap"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+<div class="toast" id="toast">Открываем бота...</div>
 
-<div id="preloader"><div class="loader"></div></div>
+<div class="app">
 
-<div class="stars" id="stars"></div>
-
-<div class="wrapper">
-
-  <div class="header">
-    <div class="logo"><span>W</span> Wilitx Stars</div>
+<!-- HOME -->
+<div class="sec on" id="s-home">
+  <div class="hero anim">
+    <!-- Telegram Star SVG — rendered entirely inline, no external deps -->
+    <div class="hero-star">
+      <span class="star-emoji">⭐</span>
+    </div>
+    <div class="brand-pill"><div class="brand-w"><svg class="w-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wg1" x1="15%" y1="0%" x2="85%" y2="100%">
+      <stop offset="0%"   stop-color="#bf6fff"/>
+      <stop offset="30%"  stop-color="#cc66ff"/>
+      <stop offset="52%"  stop-color="#e87fc8"/>
+      <stop offset="72%"  stop-color="#d055ee"/>
+      <stop offset="100%" stop-color="#8822cc"/>
+    </linearGradient>
+    <linearGradient id="wg_shine" x1="5%" y1="0%" x2="55%" y2="80%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%"  stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="wg_glow" cx="30%" cy="85%" r="60%">
+      <stop offset="0%"   stop-color="#dd99ff" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#dd99ff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="wf1">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#5500aa" flood-opacity="0.6"/>
+    </filter>
+    <!-- Clip to W shape -->
+    <clipPath id="wclip">
+      <path d="M6,16 L6,20 L24,76 L24,80 L36,80 L36,76 L50,30 L64,76 L64,80 L76,80 L76,76 L94,20 L94,16 L80,16 L80,19 L68,60 L54,16 L46,16 L32,60 L20,19 L20,16 Z"/>
+    </clipPath>
+  </defs>
+  <!-- Base W fill -->
+  <path d="M6,16 L6,20 L24,76 L24,80 L36,80 L36,76 L50,30 L64,76 L64,80 L76,80 L76,76 L94,20 L94,16 L80,16 L80,19 L68,60 L54,16 L46,16 L32,60 L20,19 L20,16 Z"
+    fill="url(#wg1)" filter="url(#wf1)"/>
+  <!-- Shine overlay clipped to W -->
+  <path d="M6,16 L6,20 L24,76 L24,80 L36,80 L36,76 L50,30 L64,76 L64,80 L76,80 L76,76 L94,20 L94,16 L80,16 L80,19 L68,60 L54,16 L46,16 L32,60 L20,19 L20,16 Z"
+    fill="url(#wg_shine)"/>
+  <!-- Bottom inner glow -->
+  <path d="M6,16 L6,20 L24,76 L24,80 L36,80 L36,76 L50,30 L64,76 L64,80 L76,80 L76,76 L94,20 L94,16 L80,16 L80,19 L68,60 L54,16 L46,16 L32,60 L20,19 L20,16 Z"
+    fill="url(#wg_glow)"/>
+  <!-- Top highlight streak on left arm -->
+  <ellipse cx="20" cy="34" rx="5" ry="14" fill="white" opacity="0.18" transform="rotate(-30,20,34)" clip-path="url(#wclip)"/>
+  <!-- Top highlight streak on right arm -->
+  <ellipse cx="80" cy="34" rx="5" ry="14" fill="white" opacity="0.15" transform="rotate(30,80,34)" clip-path="url(#wclip)"/>
+  <!-- Center highlight -->
+  <ellipse cx="50" cy="42" rx="6" ry="8" fill="white" opacity="0.12" clip-path="url(#wclip)"/>
+</svg></div>Wilitx Stars<div class="bdot"></div></div>
+    <h1 class="h1">Покупка <em>Telegram Stars</em><br>и многое другое<br>по выгодной цене</h1>
+    <p class="sub">Быстро <span class="sep">·</span> Безопасно <span class="sep">·</span> Выгодно</p>
+    <button class="cta" id="mainCta" onclick="openBot()">
+      <span class="star-emoji">⭐</span> Перейти в бота
+    </button>
   </div>
 
-  <div class="hero">
-    <h1>Покупка Telegram Stars и многое другое<br>по выгодной цене</h1>
-    <p>Быстро • Безопасно • Выгодно</p>
-    <a href="https://t.me/wilitxstarsbot" class="main-btn">Перейти в бота</a>
-  </div>
-
-  <div class="cards">
-    <div class="card">
-      <h3>⚡️ Моментально</h3>
-      <p>Stars начисляются почти сразу после покупки</p>
+  <div class="glass stats-card anim">
+    <div class="sc-top"><div class="bdot"></div><div class="sc-lbl">Продано за всё время</div></div>
+    <div class="sc-num">
+      <span id="cnt">0</span>
+      <span class="star-emoji">⭐</span>
     </div>
-    <div class="card">
-      <h3>💎 Лучшая цена</h3>
-      <p>Цены ниже официальных</p>
-    </div>
-    <div class="card">
-      <h3>🔒 Безопасно</h3>
-      <p>Работаем напрямую через Fragment</p>
+    <div class="sc-sub">звёзд выдано покупателям</div>
+    <div class="sc-div"></div>
+    <div class="sc-row">
+      <div class="sc-item"><span class="sc-n">≤5 мин</span><span class="sc-l">Скорость</span></div>
+      <div class="sc-item"><span class="sc-n">200+</span><span class="sc-l">Заказов</span></div>
+      <div class="sc-item"><span class="sc-n">100+</span><span class="sc-l">Клиентов</span></div>
     </div>
   </div>
 
+  <div class="fg anim">
+    <div class="glass fc lift"><span class="fi">⚡</span><div class="ft">Моментально</div><div class="fd">Товары начисляются почти сразу после покупки</div></div>
+    <div class="glass fc lift"><span class="fi">🔒</span><div class="ft">Безопасно</div><div class="fd">Покупка официально через Fragment</div></div>
+    <div class="glass fc lift"><span class="fi">💎</span><div class="ft">Лучшая цена</div><div class="fd">Цены ниже официальных в Telegram</div></div>
+    <div class="glass fc lift"><span class="fi">💬</span><div class="ft">Поддержка 24/7</div><div class="fd">Всегда на связи</div></div>
+  </div>
+
+  <div style="font-size:11px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px" class="anim">Последние отзывы</div>
+  <div class="glass rv lift anim"><div class="rv-head"><div><div class="rv-product">TELEGRAM STARS · 50 STARS</div></div><span class="rv-badge">✓ Хорошо</span></div><div class="rv-text">Как обычно все хорошоо, покупаю только тут. Советую очень 🐇</div><div class="rv-footer"><span class="rv-num">#8986</span><span class="rv-date">8 мар 2026</span></div></div>
+  <div class="glass rv lift anim"><div class="rv-head"><div><div class="rv-product">USERNAME RENT · @WUTNU</div></div><span class="rv-badge">✓ Хорошо</span></div><div class="rv-text">Прекрасный бот, отзывчивая поддержка, приятные цены и огромный функционал 💋</div><div class="rv-footer"><span class="rv-num">#5202</span><span class="rv-date">3 мар 2026</span></div></div>
+  <div class="glass rv lift anim"><div class="rv-head"><div><div class="rv-product">TELEGRAM STARS · 151 STARS</div></div><span class="rv-badge">✓ Хорошо</span></div><div class="rv-text">Все как всегда отлично работает! Спасибо</div><div class="rv-footer"><span class="rv-num">#3297</span><span class="rv-date">1 мар 2026</span></div></div>
 </div>
 
-<div class="bottom-nav">
-  <a href="index.html">Главная</a>
-  <a href="buy.html">Цены</a>
-  <a href="info.html">Инфо</a>
+<!-- PRICES -->
+<div class="sec" id="s-prices">
+  <div class="sh anim">
+    <div class="stit">
+      <span class="star-emoji">⭐</span>
+      Цены на Stars
+    </div>
+    <div class="ssub">1 звезда = 1.35 ₽ · Дешевле чем в Telegram</div>
+  </div>
+  <div class="glass calc-card anim">
+    <div class="calc-lbl">Калькулятор стоимости</div>
+    <div class="calc-row">
+      <input class="calc-input" type="number" id="ci" placeholder="Кол-во звёзд" min="1" max="10000" oninput="calcP()" inputmode="numeric">
+      <div class="calc-result" id="co">0 ₽</div>
+    </div>
+    <div class="calc-note">Максимум 10 000 звёзд · 1 звезда = 1.35 ₽</div>
+  </div>
+  <div class="pl" id="price-list"></div>
+  <button class="cta anim" style="margin-top:18px" onclick="openBot()">
+    <span class="star-emoji">⭐</span> Купить Stars
+  </button>
+  <div style="height:10px"></div>
 </div>
+
+<!-- REVIEWS -->
+<div class="sec" id="s-reviews">
+  <div class="sh anim"><div class="stit">💬 Отзывы</div><div class="ssub">200+ выполненных заказов · 100% позитивных</div></div>
+  <div class="rev-tabs anim">
+    <button class="rtab on" onclick="frev('all',this)">Все <span class="rcnt">3</span></button>
+    <button class="rtab" onclick="frev('pos',this)">Позитивные <span class="rcnt">3</span></button>
+    <button class="rtab" onclick="frev('neg',this)">Негативные <span class="rcnt">0</span></button>
+  </div>
+  <div id="rvlist">
+    <div class="glass rv lift anim" data-t="pos"><div class="rv-head"><div><div class="rv-product">TELEGRAM STARS · 50 STARS</div></div><span class="rv-badge">✓ Хорошо</span></div><div class="rv-text">Как обычно все хорошоо, покупаю только тут. Советую очень 🐇</div><div class="rv-footer"><span class="rv-num">#8986</span><span class="rv-date">8 мар 2026</span></div></div>
+    <div class="glass rv lift anim" data-t="pos"><div class="rv-head"><div><div class="rv-product">USERNAME RENT · @WUTNU</div></div><span class="rv-badge">✓ Хорошо</span></div><div class="rv-text">Прекрасный бот, отзывчивая поддержка, приятные цены и огромный функционал 💋</div><div class="rv-footer"><span class="rv-num">#5202</span><span class="rv-date">3 мар 2026</span></div></div>
+    <div class="glass rv lift anim" data-t="pos"><div class="rv-head"><div><div class="rv-product">TELEGRAM STARS · 151 STARS</div></div><span class="rv-badge">✓ Хорошо</span></div><div class="rv-text">Все как всегда отлично работает! Спасибо</div><div class="rv-footer"><span class="rv-num">#3297</span><span class="rv-date">1 мар 2026</span></div></div>
+    <div style="margin-top:16px;padding:0 2px 4px" class="anim"><p style="font-size:11px;color:rgba(255,255,255,0.25);line-height:1.6;font-style:italic">* Функция отзывов была добавлена недавно — меню будет часто обновляться. Спасибо за понимание 🙏</p></div>
+  </div><!-- /rvlist -->
+</div><!-- /s-reviews -->
+
+<!-- INFO -->
+<div class="sec" id="s-info">
+  <div class="sh anim"><div class="stit">📋 Информация</div><div class="ssub">Всё что нужно знать</div></div>
+  <div class="il">
+    <div class="glass ic lift anim"><div class="ih"><div class="ii">🚀</div><div class="iti">Как купить?</div></div><div class="ib">1. Нажмите «Перейти в бота»<br>2. Выберите нужное количество Stars<br>3. Оплатите удобным способом<br>4. Получите товар за 1–5 минут ⚡</div></div>
+    <div class="glass ic lift anim"><div class="ih"><div class="ii">💳</div><div class="iti">Способы оплаты</div></div><div class="ib">Банковские карты (РФ и зарубежные), СБП, криптовалюты (USDT, TON) и другие методы.</div></div>
+    <div class="glass ic lift anim"><div class="ih"><div class="ii">🔒</div><div class="iti">Безопасность</div></div><div class="ib">Покупка производится официально через платформу <b style="color:var(--t1)">Fragment</b>. Ваш аккаунт в полной безопасности — никакого риска блокировки.</div><div class="idv"></div><div class="ib" style="color:var(--purple);font-weight:600;font-size:12px">✓ Официальный Fragment &nbsp;·&nbsp; ✓ Без риска &nbsp;·&nbsp; ✓ Гарантия</div></div>
+    <div class="glass ic lift anim"><div style="font-size:10px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Контакты</div><div class="ir"><span class="ik">Бот</span><a class="iv" href="https://t.me/WilitxStarsBot" onclick="openTg('WilitxStarsBot');return false;">@WilitxStarsBot</a></div><div class="ir"><span class="ik">Поддержка</span><a class="iv" href="https://t.me/MessageWT_bot" onclick="openTg('MessageWT_bot');return false;">@MessageWT_bot</a></div><div class="ir"><span class="ik">Канал</span><a class="iv" href="https://t.me/WilitxStars" onclick="openTg('WilitxStars');return false;">@WilitxStars</a></div><div class="ir"><span class="ik">Время ответа</span><span class="iv">~5 минут</span></div></div>
+  </div>
+  <div style="height:10px"></div>
+</div>
+
+
+<!-- MENU -->
+<div class="sec" id="s-menu">
+  <div class="sh anim"><div class="stit">🗂 Все функции</div><div class="ssub">Нажмите на нужный раздел — перейдёте в бота</div></div>
+
+  <div class="menu-grid anim">
+    <div class="mcard" onclick="openTgCmd('buy_stars')">
+      <div class="mcard-icon">⭐</div>
+      <div><div class="mcard-text">Купить звёзды</div><div class="mcard-sub">от 1.35 ₽/шт</div></div>
+    </div>
+    <div class="mcard" onclick="openTgCmd('sell_stars')">
+      <div class="mcard-icon">💸</div>
+      <div><div class="mcard-text">Продать звёзды</div><div class="mcard-sub">Быстрый вывод</div></div>
+    </div>
+  </div>
+
+  <div class="menu-grid anim">
+    <div class="mcard" onclick="openTgCmd('buy_nft')">
+      <div class="mcard-icon">🐸</div>
+      <div><div class="mcard-text">Купить NFT</div><div class="mcard-sub">Коллекции Telegram</div></div>
+    </div>
+    <div class="mcard" onclick="openTgCmd('rent_nft')">
+      <div class="mcard-icon">🧾</div>
+      <div><div class="mcard-text">Аренда NFT</div><div class="mcard-sub">Временный доступ</div></div>
+    </div>
+  </div>
+
+  <div class="menu-grid anim">
+    <div class="mcard menu-full" onclick="openTgCmd('premium')">
+      <div class="mcard-icon">🌟</div>
+      <div><div class="mcard-text">Telegram Премиум</div><div class="mcard-sub">Дешевле официальной цены</div></div>
+    </div>
+  </div>
+
+  <div class="menu-grid anim">
+    <div class="mcard" onclick="openTgCmd('buy_ton')">
+      <div class="mcard-icon">💎</div>
+      <div><div class="mcard-text">Купить TON</div><div class="mcard-sub">Быстро и выгодно</div></div>
+    </div>
+    <div class="mcard" onclick="openTgCmd('buy_gift')">
+      <div class="mcard-icon">🎁</div>
+      <div><div class="mcard-text">Обычный подарок</div><div class="mcard-sub">Порадуй друга</div></div>
+    </div>
+  </div>
+
+  <div style="height:6px"></div>
+  <div class="glass anim" style="padding:14px 16px;margin-bottom:6px;display:flex;align-items:center;gap:10px">
+    <span style="font-size:20px">💬</span>
+    <div><div style="font-size:13px;font-weight:700">Поддержка 24/7</div><a style="font-size:12px;color:var(--purple);text-decoration:none;font-weight:600" href="https://t.me/MessageWT_bot" onclick="openTg('MessageWT_bot');return false;">@MessageWT_bot</a></div>
+  </div>
+  <div style="height:10px"></div>
+</div><!-- /s-menu -->
+
+</div><!-- /app -->
+
+<nav class="nav" style="gap:2px">
+  <button class="tab on" onclick="go('home',this)"><span class="ti">🏠</span>Главная</button>
+  <button class="tab" onclick="go('menu',this)"><span class="ti">🗂</span>Меню</button>
+  <button class="tab" onclick="go('prices',this)"><span class="ti">⭐</span>Цены</button>
+  <button class="tab" onclick="go('reviews',this)"><span class="ti">💬</span>Отзывы</button>
+  <button class="tab" onclick="go('info',this)"><span class="ti">📋</span>Инфо</button>
+</nav>
 
 <script>
-/* PRELOADER */
-window.onload=()=>document.getElementById("preloader").style.display="none";
+/* ── STAR SVG FACTORY ── */
+function starSVG(uid, w, h, glow) { return '<span style="font-size:22px">⭐</span>'; }
 
-/* STARS */
-const stars=document.getElementById("stars");
-for(let i=0;i<35;i++){
-  const s=document.createElement("div");
-  s.className="star";
-  s.style.left=Math.random()*100+"%";
-  s.style.animationDuration=6+Math.random()*10+"s";
-  s.style.animationDelay=Math.random()*-10+"s";
-  stars.appendChild(s);
+/* ── BUILD PRICE CARDS ── */
+var packs = [
+  [50,'Стартовый'],[100,'Базовый'],[250,'Стандартный'],
+  [500,'Популярный ★ Выбор'],[1000,'Продвинутый'],
+  [2500,'Профи'],[5000,'Бизнес'],[10000,'Максимум']
+];
+var orbColors = [
+  'rgba(168,85,247,0.12)','rgba(180,70,255,0.12)','rgba(192,60,240,0.12)',
+  'rgba(192,38,211,0.14)','rgba(168,85,247,0.16)','rgba(192,38,211,0.18)',
+  'rgba(168,85,247,0.2)','rgba(224,64,251,0.18)'
+];
+var orbBorders = [
+  'rgba(168,85,247,0.25)','rgba(180,70,255,0.25)','rgba(192,60,240,0.25)',
+  'rgba(192,38,211,0.3)','rgba(168,85,247,0.35)','rgba(192,38,211,0.35)',
+  'rgba(168,85,247,0.4)','rgba(224,64,251,0.4)'
+];
+var pl = document.getElementById('price-list');
+packs.forEach(function(p, i) {
+  var amt = p[0], lbl = p[1];
+  var price = Math.round(amt * 1.35).toLocaleString('ru-RU');
+  var el = document.createElement('div');
+  el.className = 'glass pc anim';
+  el.innerHTML =
+    '<div class="porb" style="background:'+orbColors[i]+';border:1px solid '+orbBorders[i]+'">'
+      + starSVG('pc'+i, 28, 28, true)
+    +'</div>'
+    +'<div class="pi"><div class="pa">'+amt.toLocaleString('ru-RU')+' Stars</div><div class="pb">'+lbl+'</div></div>'
+    +'<div class="pv"><div class="pp">'+price+' ₽</div><div class="pu">1.35 ₽/шт</div></div>';
+  el.onclick = function(e) { buy(el, amt); };
+  pl.appendChild(el);
+});
+
+/* ── CANVAS PARTICLES ── */
+(function(){
+  var cv = document.getElementById('canvas');
+  var ctx = cv.getContext('2d');
+  var W, H, pts = [];
+  function resize(){ W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+
+  // Prerender a tiny star shape on offscreen canvas
+  function makeStarCanvas(size, color) {
+    var oc = document.createElement('canvas');
+    oc.width = oc.height = size * 2.5;
+    var ox = oc.getContext('2d');
+    var cx = oc.width/2, cy = oc.height/2, r = size, ir = r*0.42;
+    ox.beginPath();
+    for (var k=0; k<10; k++) {
+      var a = (k * Math.PI/5) - Math.PI/2;
+      var rad = k%2===0 ? r : ir;
+      if(k===0) ox.moveTo(cx+Math.cos(a)*rad, cy+Math.sin(a)*rad);
+      else ox.lineTo(cx+Math.cos(a)*rad, cy+Math.sin(a)*rad);
+    }
+    ox.closePath();
+    var grd = ox.createRadialGradient(cx-size*0.2, cy-size*0.2, 0, cx, cy, r);
+    grd.addColorStop(0, '#fffad0');
+    grd.addColorStop(0.3, '#ffd700');
+    grd.addColorStop(0.7, '#ffaa00');
+    grd.addColorStop(1, '#c06800');
+    ox.fillStyle = grd;
+    ox.shadowColor = 'rgba(255,180,0,0.7)';
+    ox.shadowBlur = size * 0.5;
+    ox.fill();
+    return oc;
+  }
+
+  var starImgs = [makeStarCanvas(7, '#ffd700'), makeStarCanvas(10, '#ffa500'), makeStarCanvas(5, '#ffdd00')];
+
+  function Particle() { this.init(); }
+  Particle.prototype.init = function() {
+    this.x = Math.random() * W;
+    this.y = H + 20;
+    this.vx = (Math.random() - 0.5) * 0.5;
+    this.vy = -(0.25 + Math.random() * 0.7);
+    this.sz = 0.5 + Math.random() * 1.2;
+    this.img = starImgs[Math.floor(Math.random() * starImgs.length)];
+    this.alpha = 0;
+    this.maxAlpha = 0.3 + Math.random() * 0.5;
+    this.life = 0;
+    this.maxLife = 180 + Math.random() * 280;
+    this.rot = Math.random() * Math.PI * 2;
+    this.rotV = (Math.random() - 0.5) * 0.025;
+    this.wobble = Math.random() * Math.PI * 2;
+    this.wobbleS = 0.018 + Math.random() * 0.025;
+  };
+
+  for (var i = 0; i < 60; i++) {
+    var p = new Particle();
+    p.y = Math.random() * H;
+    p.life = Math.random() * p.maxLife;
+    pts.push(p);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    pts.forEach(function(p) {
+      p.life++;
+      if (p.life > p.maxLife) { p.init(); return; }
+      var prog = p.life / p.maxLife;
+      p.alpha = p.maxAlpha * Math.sin(Math.PI * prog);
+      p.wobble += p.wobbleS;
+      p.x += p.vx + Math.sin(p.wobble) * 0.25;
+      p.y += p.vy;
+      p.rot += p.rotV;
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.scale(p.sz, p.sz);
+      var hw = p.img.width/2, hh = p.img.height/2;
+      ctx.drawImage(p.img, -hw, -hh);
+      ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── RIPPLE ── */
+function addRipple(el, e) {
+  var r = document.createElement('span');
+  r.className = 'ripple-dot';
+  var rect = el.getBoundingClientRect();
+  var size = Math.max(rect.width, rect.height) * 0.6;
+  r.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+(e.clientX-rect.left-size/2)+'px;top:'+(e.clientY-rect.top-size/2)+'px';
+  el.appendChild(r);
+  setTimeout(function(){ r.remove(); }, 700);
+}
+document.addEventListener('click', function(e) {
+  var t = e.target.closest('.cta,.pc,.tab,.rv');
+  if (t) addRipple(t, e);
+});
+
+/* ── BURST ── */
+function burst(el) {
+  var rect = el.getBoundingClientRect();
+  var cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+  for (var i = 0; i < 10; i++) {
+    var b = document.createElement('div');
+    var angle = (i / 10) * Math.PI * 2 + Math.random() * 0.5;
+    var dist = 50 + Math.random() * 70;
+    b.style.cssText = 'position:fixed;left:'+cx+'px;top:'+cy+'px;width:16px;height:16px;pointer-events:none;z-index:9999;font-size:14px;line-height:16px;text-align:center;animation:bst 0.65s ease-out forwards;--dx:'+(Math.cos(angle)*dist)+'px;--dy:'+(Math.sin(angle)*dist)+'px';
+    b.textContent = ['★','✦','✧','⋆'][i%4];
+    b.style.color = ['#ffd700','#ffaa00','#ffe566','#ffcc00'][i%4];
+    document.body.appendChild(b);
+    setTimeout(function(x){ x.remove(); }, 700, b);
+  }
+}
+var bKF = document.createElement('style');
+bKF.textContent = '@keyframes bst{0%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(0.2)}}';
+document.head.appendChild(bKF);
+
+/* ── NAV / SECTIONS ── */
+function go(n, b) {
+  document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
+  document.getElementById('s-'+n).classList.add('on');
+  b.classList.add('on');
+  window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-/* SCROLL ANIMATION */
-const cards=document.querySelectorAll('.card');
-const obs=new IntersectionObserver(e=>{
-  e.forEach(i=>i.isIntersecting && i.target.classList.add('show'))
-},{threshold:.2});
-cards.forEach(c=>obs.observe(c));
-</script>
+/* ── OPEN TG ── */
+function openTg(username) {
+  var url = 'https://t.me/' + username;
+  if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.openLink(url);
+  else window.open(url, '_blank');
+}
+function openTgCmd(cmd) {
+  toast('Открываем бота...');
+  setTimeout(function(){ openTg('WilitxStarsBot'); }, 400);
+}
 
+/* ── BOT ── */
+function openBot() {
+  toast('Открываем бота...');
+  setTimeout(function(){
+    if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.openLink('https://t.me/WilitxStarsBot');
+    else window.open('https://t.me/WilitxStarsBot','_blank');
+  }, 500);
+}
+function buy(el, n) {
+  burst(el);
+  toast(n.toLocaleString('ru-RU')+' Stars — '+Math.round(n*1.35).toLocaleString('ru-RU')+' ₽');
+  setTimeout(openBot, 1000);
+}
+function toast(m) {
+  var t = document.getElementById('toast');
+  t.textContent = m; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+/* ── CALC ── */
+function calcP() {
+  var v = parseInt(document.getElementById('ci').value)||0;
+  if(v>10000) v=10000;
+  var el = document.getElementById('co');
+  el.textContent = v>0 ? Math.round(v*1.35).toLocaleString('ru-RU')+' ₽' : '0 ₽';
+  el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
+}
+
+/* ── REVIEWS ── */
+function frev(t, b) {
+  document.querySelectorAll('.rtab').forEach(function(x){ x.classList.remove('on'); });
+  b.classList.add('on');
+  document.querySelectorAll('#rvlist .rv').forEach(function(r){
+    r.style.display = (t==='all' || r.dataset.t===t) ? 'block' : 'none';
+  });
+}
+
+/* ── COUNTER ── */
+(function(){
+  var el = document.getElementById('cnt'), tg = 20000, c = 0, s = tg/60;
+  var iv = setInterval(function(){
+    c = Math.min(c+s, tg);
+    el.textContent = Math.floor(c).toLocaleString('ru-RU');
+    if(c>=tg){ el.textContent='20 000'; clearInterval(iv); }
+  }, 16);
+})();
+
+if(window.Telegram&&window.Telegram.WebApp){ window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); }
+</script>
 </body>
 </html>
