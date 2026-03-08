@@ -4,21 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Wilitx Stars</title>
-<style>
-:root{
-  --bg:#0a0010;
-  --purple:#c05aff;
-  --pink:#e040fb;
-  --ag:linear-gradient(135deg,#b044f5,#e040fb,#cc44ff);
-  --bg-btn:linear-gradient(135deg,#a855f7,#d946ef,#c026d3);
-  --t1:#fff;
-  --t2:rgba(255,255,255,0.55);
-  --t3:rgba(255,255,255,0.28);
-  --bord:rgba(180,80,255,0.2);
+<style>:root{
+--bg:#0a0010;
+--purple:#c05aff;
+--pink:#e040fb;
+--ag:linear-gradient(135deg,#b044f5,#e040fb,#cc44ff);
+--bg-btn:linear-gradient(135deg,#a855f7,#d946ef,#c026d3);
+--t1:#fff;
+--t2:rgba(255,255,255,0.55);
+--t3:rgba(255,255,255,0.28);
+--bord:rgba(180,80,255,0.2);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-/* Force Apple emoji rendering on all star instances */
 .star-emoji{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-style:normal}
 #canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 .bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
@@ -27,87 +25,67 @@ html,body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMa
 .orb2{width:420px;height:420px;background:radial-gradient(circle,rgba(217,70,239,0.18),transparent 70%);bottom:-140px;right:-100px;animation-duration:20s;animation-delay:-8s}
 .orb3{width:280px;height:280px;background:radial-gradient(circle,rgba(192,60,255,0.14),transparent 70%);top:40%;left:30%;animation-duration:12s;animation-delay:-4s}
 @keyframes orbFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(28px,18px) scale(1.1)}}
-
 .app{position:relative;z-index:1;min-height:100vh;padding-bottom:92px}
 .sec{display:none;padding:0 14px}
 .sec.on{display:block}
-
 .anim{opacity:1;transform:none}
 .sec.on .anim{animation:slideUp 0.4s cubic-bezier(0.22,1,0.36,1) both}
 @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-
-/* Telegram Star — rendered via img tag using Telegram's own CDN sticker */
-.tgstar{display:inline-block;vertical-align:middle;line-height:1;flex-shrink:0}
-.tgstar img{display:block;width:100%;height:100%}
-
 .glass{
-  position:relative;overflow:hidden;
-  background:rgba(28,0,45,0.55);
-  border:1px solid var(--bord);
-  border-radius:20px;
-  box-shadow:0 8px 40px rgba(0,0,0,0.55),0 1px 0 rgba(255,255,255,0.08) inset;
-  -webkit-backdrop-filter:blur(28px) saturate(160%);
-  backdrop-filter:blur(28px) saturate(160%);
-  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s,border-color 0.3s;
+position:relative;overflow:hidden;
+background:rgba(28,0,45,0.55);
+border:1px solid var(--bord);
+border-radius:20px;
+box-shadow:0 8px 40px rgba(0,0,0,0.55),0 1px 0 rgba(255,255,255,0.08) inset;
+-webkit-backdrop-filter:blur(28px) saturate(160%);
+backdrop-filter:blur(28px) saturate(160%);
+transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s,border-color 0.3s;
 }
 .glass::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:2;pointer-events:none;background:linear-gradient(90deg,transparent 5%,rgba(210,130,255,0.4) 40%,rgba(230,110,255,0.45) 60%,transparent 95%)}
 .glass::after{content:'';position:absolute;inset:0;border-radius:inherit;z-index:1;pointer-events:none;background:linear-gradient(150deg,rgba(170,80,255,0.1) 0%,transparent 45%,rgba(220,60,255,0.05) 100%)}
 .glass:active{transform:scale(0.975)!important;box-shadow:0 4px 20px rgba(0,0,0,0.6)}
 @supports not (backdrop-filter:blur(1px)){.glass{background:rgba(28,0,45,0.97)}}
-
 .lift{transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.35s}
 .lift:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 16px 48px rgba(180,0,255,0.2)}
-
 .nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:100;
-  display:flex;gap:4px;
-  padding:10px 10px max(env(safe-area-inset-bottom,16px),16px);
-  background:rgba(8,0,16,0.9);
-  border-top:1px solid rgba(180,80,255,0.18);
-  -webkit-backdrop-filter:blur(40px);backdrop-filter:blur(40px);
+position:fixed;bottom:0;left:0;right:0;z-index:100;
+display:flex;gap:4px;
+padding:10px 10px max(env(safe-area-inset-bottom,16px),16px);
+background:rgba(8,0,16,0.9);
+border-top:1px solid rgba(180,80,255,0.18);
+-webkit-backdrop-filter:blur(40px);backdrop-filter:blur(40px);
 }
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px;background:none;border:none;cursor:pointer;border-radius:12px;color:rgba(255,255,255,0.3);font-family:inherit;font-size:9px;font-weight:600;letter-spacing:0.1px;transition:color 0.25s,background 0.25s,transform 0.3s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden}
 .tab.on{color:var(--pink);background:rgba(224,64,251,0.13)}
 .tab.on .ti{animation:tabPop 0.4s cubic-bezier(0.34,1.56,0.64,1)}
 @keyframes tabPop{0%{transform:scale(0.7) translateY(4px)}60%{transform:scale(1.2) translateY(-2px)}100%{transform:scale(1) translateY(0)}}
 .ti{font-size:20px;line-height:1;display:block}
-
 .hero{padding:36px 4px 24px;text-align:center}
-
-/* BIG HERO STAR */
 .hero-star{
-  font-size:80px;line-height:1;text-align:center;margin:0 auto 18px;
-  animation:starBob 3s ease-in-out infinite, starGlow 3s ease-in-out infinite;
-  
+font-size:80px;line-height:1;text-align:center;margin:0 auto 18px;
+animation:starBob 3s ease-in-out infinite, starGlow 3s ease-in-out infinite;
 }
 @keyframes starBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
 @keyframes starGlow{0%,100%{filter:drop-shadow(0 0 12px rgba(255,200,0,0.4))}50%{filter:drop-shadow(0 0 28px rgba(255,200,0,0.75)) drop-shadow(0 0 50px rgba(255,160,0,0.3))}}
-
 .brand-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;margin-bottom:22px;background:rgba(168,85,247,0.13);border:1px solid rgba(168,85,247,0.32);border-radius:100px;font-size:12px;font-weight:700;letter-spacing:0.8px;color:rgba(255,255,255,0.75);animation:pillPulse 3s ease-in-out infinite}
 @keyframes pillPulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,0)}50%{box-shadow:0 0 16px 3px rgba(168,85,247,0.2)}}
 .brand-w{width:22px;height:22px;border-radius:7px;background:var(--bg-btn);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}
 .bdot{width:7px;height:7px;border-radius:50%;background:var(--pink);box-shadow:0 0 8px var(--pink);animation:bdotPulse 2s ease-in-out infinite;flex-shrink:0}
 @keyframes bdotPulse{0%,100%{transform:scale(1);box-shadow:0 0 6px var(--pink)}50%{transform:scale(1.5);box-shadow:0 0 14px var(--pink),0 0 28px rgba(224,64,251,0.4)}}
-
 .h1{font-size:clamp(26px,7.5vw,38px);font-weight:800;line-height:1.15;letter-spacing:-.8px;margin-bottom:12px}
 .h1 em{font-style:normal;background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .sub{font-size:14px;color:var(--t2);margin-bottom:26px;line-height:1.6}
 .sub .sep{color:var(--pink);animation:sepBlink 2s ease-in-out infinite;display:inline-block}
 @keyframes sepBlink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
-
 .cta{display:block;width:100%;padding:17px;background:var(--bg-btn);border:none;border-radius:100px;color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;text-align:center;letter-spacing:.3px;box-shadow:0 4px 30px rgba(192,38,211,0.6),0 1px 0 rgba(255,255,255,0.22) inset;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.2s;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:8px}
 .cta::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);animation:ctaShine 2.5s 0.5s infinite}
 @keyframes ctaShine{0%{left:-100%}100%{left:200%}}
 .cta:hover{transform:scale(1.02);box-shadow:0 6px 40px rgba(192,38,211,0.75),0 1px 0 rgba(255,255,255,0.22) inset}
 .cta:active{transform:scale(0.96)!important}
-
-/* Inline small star for buttons/labels */
 .s{display:inline-block;width:18px;height:18px;vertical-align:middle;margin:-2px 0}
 .s svg{width:100%;height:100%}
-
 .ripple-dot{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,0.3);transform:scale(0);animation:rippleAnim 0.6s ease-out forwards}
 @keyframes rippleAnim{to{transform:scale(4);opacity:0}}
-
 .stats-card{padding:20px;margin:16px 0}
 .sc-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .sc-lbl{font-size:12px;color:var(--t2);font-weight:500}
@@ -120,7 +98,6 @@ html,body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMa
 .sc-item:hover{background:rgba(168,85,247,0.15);transform:scale(1.04)}
 .sc-n{font-size:15px;font-weight:800;display:block;background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .sc-l{font-size:10px;color:var(--t3);margin-top:2px}
-
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 18px}
 .fc{padding:16px 14px;cursor:default}
 .fc::after{content:'';position:absolute;top:10px;bottom:10px;left:0;width:3px;background:var(--bg-btn);border-radius:0 3px 3px 0;opacity:0.55}
@@ -132,7 +109,6 @@ html,body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMa
 @keyframes iconBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .ft{font-size:13px;font-weight:700;margin-bottom:3px;background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .fd{font-size:11px;color:var(--t2);line-height:1.55}
-
 .rv{padding:16px;margin-bottom:8px;cursor:default}
 .rv-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:10px}
 .rv-product{font-size:10px;font-weight:600;color:var(--t3);letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px}
@@ -140,11 +116,9 @@ html,body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMa
 .rv-text{font-size:13px;color:var(--t1);line-height:1.5;margin-bottom:10px}
 .rv-footer{display:flex;justify-content:space-between}
 .rv-num,.rv-date{font-size:11px;color:var(--t3);font-weight:600}
-
 .sh{padding:50px 0 14px;text-align:center}
 .stit{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;display:flex;align-items:center;justify-content:center;gap:8px}
 .ssub{font-size:12px;color:var(--t2)}
-
 .calc-card{padding:16px;margin-bottom:12px}
 .calc-lbl{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
 .calc-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
@@ -154,7 +128,6 @@ html,body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMa
 .calc-result.pop{animation:resPop 0.3s cubic-bezier(0.34,1.56,0.64,1)}
 @keyframes resPop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
 .calc-note{font-size:11px;color:var(--t3);text-align:center}
-
 .pl{display:flex;flex-direction:column;gap:8px}
 .pc{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s,border-color 0.25s}
 .pc:hover{transform:translateX(4px) scale(1.01);border-color:rgba(200,100,255,0.35);box-shadow:0 8px 30px rgba(180,0,255,0.15)}
@@ -168,7 +141,6 @@ html,body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMa
 .pv{text-align:right}
 .pp{font-size:18px;font-weight:800;background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .pu{font-size:10px;color:var(--t3);margin-top:1px}
-
 .il{display:flex;flex-direction:column;gap:10px}
 .ic{padding:18px}
 .ih{display:flex;align-items:center;gap:11px;margin-bottom:10px}
@@ -181,44 +153,37 @@ html,body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMa
 .ir:last-child{border-bottom:none}
 .ik{font-size:13px;color:var(--t2)}
 .iv{font-size:13px;font-weight:600;color:var(--purple)}
-
 .rev-tabs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
 .rev-tabs::-webkit-scrollbar{display:none}
 .rtab{flex-shrink:0;padding:7px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.04);font-family:inherit;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:6px}
 .rtab.on{background:rgba(168,85,247,0.14);border-color:rgba(168,85,247,0.35);color:var(--purple)}
 .rcnt{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.07)}
 .rtab.on .rcnt{background:var(--bg-btn)}
-
 .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);background:rgba(18,0,30,0.95);border:1px solid rgba(200,100,255,0.3);border-radius:14px;padding:12px 20px;font-size:13px;font-weight:600;z-index:999;white-space:nowrap;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,0.4)}
 .toast.show{transform:translateX(-50%) translateY(0)}
-
 .w-logo{display:block;width:100%;height:100%}
 .brand-w{
-  width:28px;height:28px;border-radius:8px;
-  background:rgba(140,40,220,0.15);
-  border:1px solid rgba(180,80,255,0.3);
-  display:flex;align-items:center;justify-content:center;
-  padding:3px;overflow:hidden;
-  box-shadow:0 0 10px rgba(180,80,255,0.3);
+width:28px;height:28px;border-radius:8px;
+background:rgba(140,40,220,0.15);
+border:1px solid rgba(180,80,255,0.3);
+display:flex;align-items:center;justify-content:center;
+padding:3px;overflow:hidden;
+box-shadow:0 0 10px rgba(180,80,255,0.3);
 }
-
-
 a.iv{color:var(--purple);text-decoration:none;font-size:13px;font-weight:600;transition:opacity 0.2s}
 a.iv:active{opacity:0.6}
-
-/* MENU TAB */
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .menu-full{grid-column:1/-1}
 .mcard{
-  display:flex;align-items:center;gap:12px;
-  padding:16px 14px;cursor:pointer;
-  background:rgba(28,0,45,0.55);
-  border:1px solid var(--bord);
-  border-radius:18px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.4),0 1px 0 rgba(255,255,255,0.06) inset;
-  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
-  transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s,border-color 0.25s;
-  position:relative;overflow:hidden;
+display:flex;align-items:center;gap:12px;
+padding:16px 14px;cursor:pointer;
+background:rgba(28,0,45,0.55);
+border:1px solid var(--bord);
+border-radius:18px;
+box-shadow:0 4px 20px rgba(0,0,0,0.4),0 1px 0 rgba(255,255,255,0.06) inset;
+-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s,border-color 0.25s;
+position:relative;overflow:hidden;
 }
 .mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,120,255,0.3),transparent)}
 .mcard:hover{transform:scale(1.02) translateY(-2px);box-shadow:0 10px 32px rgba(150,0,255,0.2);border-color:rgba(200,100,255,0.35)}
@@ -226,7 +191,6 @@ a.iv:active{opacity:0.6}
 .mcard-icon{font-size:26px;flex-shrink:0;line-height:1}
 .mcard-text{font-size:14px;font-weight:700;color:var(--t1);line-height:1.2}
 .mcard-sub{font-size:11px;color:var(--t2);margin-top:2px;font-weight:400}
-
 </style>
 </head>
 <body>
@@ -364,8 +328,8 @@ a.iv:active{opacity:0.6}
 <div class="sec" id="s-info">
   <div class="sh anim"><div class="stit">📋 Информация</div><div class="ssub">Всё что нужно знать</div></div>
   <div class="il">
-    <div class="glass ic lift anim"><div class="ih"><div class="ii">🚀</div><div class="iti">Как купить?</div></div><div class="ib">1. Нажмите «Перейти в бота»<br>2. Выберите нужное количество Stars<br>3. Оплатите удобным способом<br>4. Получите товар за 1–5 минут ⚡</div></div>
-    <div class="glass ic lift anim"><div class="ih"><div class="ii">💳</div><div class="iti">Способы оплаты</div></div><div class="ib">Банковские карты (РФ и зарубежные), СБП, криптовалюты (USDT, TON) и другие методы.</div></div>
+    <div class="glass ic lift anim"><div class="ih"><div class="ii">🚀</div><div class="iti">Как купить?</div></div><div class="ib">1. Нажмите «Перейти в бота»<br>2. Выберите нужный товар<br>3. Оплатите удобным способом<br>4. Получите товар за 1–5 минут ⚡</div></div>
+    <div class="glass ic lift anim"><div class="ih"><div class="ii">💳</div><div class="iti">Способы оплаты</div></div><div class="ib">Банковские карты (РФ), СБП, криптовалюты (USDT, TON) и другие методы.</div></div>
     <div class="glass ic lift anim"><div class="ih"><div class="ii">🔒</div><div class="iti">Безопасность</div></div><div class="ib">Покупка производится официально через платформу <b style="color:var(--t1)">Fragment</b>. Ваш аккаунт в полной безопасности — никакого риска блокировки.</div><div class="idv"></div><div class="ib" style="color:var(--purple);font-weight:600;font-size:12px">✓ Официальный Fragment &nbsp;·&nbsp; ✓ Без риска &nbsp;·&nbsp; ✓ Гарантия</div></div>
     <div class="glass ic lift anim"><div style="font-size:10px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Контакты</div><div class="ir"><span class="ik">Бот</span><a class="iv" href="https://t.me/WilitxStarsBot" onclick="openTg('WilitxStarsBot');return false;">@WilitxStarsBot</a></div><div class="ir"><span class="ik">Поддержка</span><a class="iv" href="https://t.me/MessageWT_bot" onclick="openTg('MessageWT_bot');return false;">@MessageWT_bot</a></div><div class="ir"><span class="ik">Канал</span><a class="iv" href="https://t.me/WilitxStars" onclick="openTg('WilitxStars');return false;">@WilitxStars</a></div><div class="ir"><span class="ik">Время ответа</span><span class="iv">~5 минут</span></div></div>
   </div>
@@ -436,10 +400,7 @@ a.iv:active{opacity:0.6}
 </nav>
 
 <script>
-/* ── STAR SVG FACTORY ── */
 function starSVG(uid, w, h, glow) { return '<span style="font-size:22px">⭐</span>'; }
-
-/* ── BUILD PRICE CARDS ── */
 var packs = [
   [50,'Стартовый'],[100,'Базовый'],[250,'Стандартный'],
   [500,'Популярный ★ Выбор'],[1000,'Продвинутый'],
@@ -470,16 +431,12 @@ packs.forEach(function(p, i) {
   el.onclick = function(e) { buy(el, amt); };
   pl.appendChild(el);
 });
-
-/* ── CANVAS PARTICLES ── */
 (function(){
   var cv = document.getElementById('canvas');
   var ctx = cv.getContext('2d');
   var W, H, pts = [];
   function resize(){ W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
   resize(); window.addEventListener('resize', resize);
-
-  // Prerender a tiny star shape on offscreen canvas
   function makeStarCanvas(size, color) {
     var oc = document.createElement('canvas');
     oc.width = oc.height = size * 2.5;
@@ -504,9 +461,7 @@ packs.forEach(function(p, i) {
     ox.fill();
     return oc;
   }
-
   var starImgs = [makeStarCanvas(7, '#ffd700'), makeStarCanvas(10, '#ffa500'), makeStarCanvas(5, '#ffdd00')];
-
   function Particle() { this.init(); }
   Particle.prototype.init = function() {
     this.x = Math.random() * W;
@@ -524,14 +479,12 @@ packs.forEach(function(p, i) {
     this.wobble = Math.random() * Math.PI * 2;
     this.wobbleS = 0.018 + Math.random() * 0.025;
   };
-
   for (var i = 0; i < 60; i++) {
     var p = new Particle();
     p.y = Math.random() * H;
     p.life = Math.random() * p.maxLife;
     pts.push(p);
   }
-
   function draw() {
     ctx.clearRect(0, 0, W, H);
     pts.forEach(function(p) {
@@ -556,8 +509,6 @@ packs.forEach(function(p, i) {
   }
   draw();
 })();
-
-/* ── RIPPLE ── */
 function addRipple(el, e) {
   var r = document.createElement('span');
   r.className = 'ripple-dot';
@@ -571,8 +522,6 @@ document.addEventListener('click', function(e) {
   var t = e.target.closest('.cta,.pc,.tab,.rv');
   if (t) addRipple(t, e);
 });
-
-/* ── BURST ── */
 function burst(el) {
   var rect = el.getBoundingClientRect();
   var cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
@@ -590,8 +539,6 @@ function burst(el) {
 var bKF = document.createElement('style');
 bKF.textContent = '@keyframes bst{0%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(0.2)}}';
 document.head.appendChild(bKF);
-
-/* ── NAV / SECTIONS ── */
 function go(n, b) {
   document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
   document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
@@ -599,8 +546,6 @@ function go(n, b) {
   b.classList.add('on');
   window.scrollTo({ top:0, behavior:'smooth' });
 }
-
-/* ── OPEN TG ── */
 function openTg(username) {
   var url = 'https://t.me/' + username;
   if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.openLink(url);
@@ -610,8 +555,6 @@ function openTgCmd(cmd) {
   toast('Открываем бота...');
   setTimeout(function(){ openTg('WilitxStarsBot'); }, 400);
 }
-
-/* ── BOT ── */
 function openBot() {
   toast('Открываем бота...');
   setTimeout(function(){
@@ -629,8 +572,6 @@ function toast(m) {
   t.textContent = m; t.classList.add('show');
   setTimeout(function(){ t.classList.remove('show'); }, 2500);
 }
-
-/* ── CALC ── */
 function calcP() {
   var v = parseInt(document.getElementById('ci').value)||0;
   if(v>10000) v=10000;
@@ -638,8 +579,6 @@ function calcP() {
   el.textContent = v>0 ? Math.round(v*1.35).toLocaleString('ru-RU')+' ₽' : '0 ₽';
   el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
 }
-
-/* ── REVIEWS ── */
 function frev(t, b) {
   document.querySelectorAll('.rtab').forEach(function(x){ x.classList.remove('on'); });
   b.classList.add('on');
@@ -647,17 +586,14 @@ function frev(t, b) {
     r.style.display = (t==='all' || r.dataset.t===t) ? 'block' : 'none';
   });
 }
-
-/* ── COUNTER ── */
 (function(){
-  var el = document.getElementById('cnt'), tg = 20000, c = 0, s = tg/60;
+  var el = document.getElementById('cnt'), tg = 23679, c = 0, s = tg/60;
   var iv = setInterval(function(){
     c = Math.min(c+s, tg);
     el.textContent = Math.floor(c).toLocaleString('ru-RU');
-    if(c>=tg){ el.textContent='20 000'; clearInterval(iv); }
+    if(c>=tg){ el.textContent='23 679'; clearInterval(iv); }
   }, 16);
 })();
-
 if(window.Telegram&&window.Telegram.WebApp){ window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); }
 </script>
 </body>
