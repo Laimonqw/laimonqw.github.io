@@ -342,7 +342,7 @@ position:relative;overflow:hidden;
       <div class="ib" style="margin-bottom:10px">Бот работает с <b style="color:var(--t1)">31 октября 2025</b> года. За это время мы обслужили почти <b style="color:var(--t1)">100 клиентов</b>, бота запустили <b style="color:var(--t1)">135 человек</b>.</div>
       <div class="idv"></div>
       <div style="display:flex;flex-direction:column;gap:7px">
-        <div class="ir"><span class="ik"><span class="star-emoji">⭐</span> Звёзд продано</span><span class="iv">19 772 <span style="color:var(--t3);font-weight:400">(26 635 ₽)</span></span></div>
+        <div class="ir"><span class="ik"><span class="star-emoji">⭐</span> Звёзд продано</span><span class="iv">20 961 <span style="color:var(--t3);font-weight:400">(28 296 ₽)</span></span></div>
         <div class="ir"><span class="ik">💸 Выкуплено звёзд</span><span class="iv">1 200</span></div>
         <div class="ir"><span class="ik">💎 Продажа TON</span><span class="iv" style="color:var(--t3)">0</span></div>
         <div class="ir"><span class="ik">🧾 Аренда NFT подарков</span><span class="iv">3 <span style="color:var(--t3);font-weight:400">(207 ₽)</span></span></div>
@@ -353,6 +353,9 @@ position:relative;overflow:hidden;
         <div class="ir"><span class="ik">🌟 Premium месяцев</span><span class="iv">6 <span style="color:var(--t3);font-weight:400">(1 375 ₽)</span></span></div>
       </div>
     </div>
+    <p style="font-size:10px;color:rgba(255,255,255,0.2);text-align:center;margin-top:14px;font-style:italic">🕐 Статистика обновляется раз в 48 часов</p>
+  </div>
+  <div style="margin-top:12px;padding:0 2px" class="anim"><p style="font-size:11px;color:rgba(255,255,255,0.22);line-height:1.6;font-style:italic;text-align:center">🕐 Информация обновляется раз в 48 часов</p></div>
   <div style="height:10px"></div>
 </div>
 
@@ -607,11 +610,11 @@ function frev(t, b) {
   });
 }
 (function(){
-  var el = document.getElementById('cnt'), tg = 19922, c = 0, s = tg/60;
+  var el = document.getElementById('cnt'), tg = 20961, c = 0, s = tg/60;
   var iv = setInterval(function(){
     c = Math.min(c+s, tg);
     el.textContent = Math.floor(c).toLocaleString('ru-RU');
-    if(c>=tg){ el.textContent='19 922'; clearInterval(iv); }
+    if(c>=tg){ el.textContent='20 961'; clearInterval(iv); }
   }, 16);
 })();
 if(window.Telegram&&window.Telegram.WebApp){ window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); }
